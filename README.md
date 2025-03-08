@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+cài thư viện
+npm install
 
-## Getting Started
-
-First, run the development server:
-
-```bash
+chạy project
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+my-nextjs-app/
+├── public/                    # Chứa các tệp tĩnh như hình ảnh, favicon
+├── src/
+│   ├── components/            # Chứa các thành phần tái sử dụng
+│   │   ├── ui/                # Các thành phần giao diện người dùng (Button, Input, ...)
+│   │   ├── layout/            # Các bố cục (Header, Footer, Sidebar, ...)
+│   │   └── common/            # Các thành phần chung (Modal, Alert, ...)
+│   ├── pages/                 # Chứa các trang
+│   │   ├── api/               # Các API route
+│   │   ├── auth/              # Các trang xác thực (Login, Register, Forgot Password, ...)
+│   │   ├── dashboard/         # Các trang dashboard
+│   │   │   ├── index.js       # Trang dashboard chính
+│   │   │   ├── reports.js     # Trang báo cáo
+│   │   │   └── settings.js    # Trang cài đặt
+│   │   ├── index.js           # Trang chủ
+│   │   ├── about.js           # Trang giới thiệu
+│   │   └── contact.js         # Trang liên hệ
+│   ├── styles/                # Chứa các tệp CSS/Tailwind
+│   │   ├── globals.css        # CSS toàn cục
+│   │   └── tailwind.css       # Cấu hình TailwindCSS
+│   ├── utils/                 # Chứa các tiện ích và hàm hỗ trợ
+│   │   └── helpers.js         # Các hàm hỗ trợ chung
+│   ├── layouts/               # Chứa các bố cục trang
+│   │   └── AuthLayout.js      # Bố cục cho các trang xác thực
+│   └── hooks/                 # Chứa các hook tùy chỉnh
+│       └── useAuth.js         # Hook xác thực tùy chỉnh
+├── .gitignore
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
