@@ -37,3 +37,4 @@ my-nextjs-app/
 
 (^-^)
 
+dụng dụng các thành phần trong ui để xậy dựng nó thiết kế chế độ sáng tối. Button, Input... 

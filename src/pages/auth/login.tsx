@@ -1,5 +1,5 @@
 import React from 'react';
-import Login from '@/layouts/authentication/login'; // Đảm bảo đường dẫn đúng
+import Login from '@/layouts/authentication/login'; 
 
 const LoginPage = () => {
   return (

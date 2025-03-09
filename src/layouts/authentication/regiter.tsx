@@ -2,6 +2,11 @@ import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import DarkModeToggle from '@/components/dark-mode-toggle';
+
 const RegisterPage = () => {
     const router = useRouter();
     const [formData, setFormData] = useState({
@@ -45,10 +50,11 @@ const RegisterPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+            <DarkModeToggle />
+            <div className="max-w-md w-full space-y-8 p-8 bg-white dark:bg-gray-800 rounded-lg shadow">
                 <div>
-                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+                    <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900 dark:text-white">
                         Create your account
                     </h2>
                 </div>
@@ -58,44 +64,40 @@ const RegisterPage = () => {
                     )}
                     <div className="rounded-md shadow-sm space-y-4">
                         <div>
-                            <input
+                            <Input
                                 name="username"
                                 type="text"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                 placeholder="Username"
                                 value={formData.username}
                                 onChange={handleChange}
                             />
                         </div>
                         <div>
-                            <input
+                            <Input
                                 name="email"
                                 type="email"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                 placeholder="Email address"
                                 value={formData.email}
                                 onChange={handleChange}
                             />
                         </div>
                         <div>
-                            <input
+                            <Input
                                 name="password"
                                 type="password"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                 placeholder="Password"
                                 value={formData.password}
                                 onChange={handleChange}
                             />
                         </div>
                         <div>
-                            <input
+                            <Input
                                 name="confirmPassword"
                                 type="password"
                                 required
-                                className="appearance-none rounded-md relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                                 placeholder="Confirm Password"
                                 value={formData.confirmPassword}
                                 onChange={handleChange}
@@ -104,18 +106,20 @@ const RegisterPage = () => {
                     </div>
 
                     <div>
-                        <button
+                        <Button
+                            variant="default"
+                            size="lg"
                             type="submit"
-                            className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="w-full"
                         >
                             Register
-                        </button>
+                        </Button>
                     </div>
                 </form>
                 <div className="text-center">
-                    <Link href="/login" className="text-indigo-600 hover:text-indigo-500">
-                        Already have an account? Sign in
-                    </Link>
+                <Link href="/login" legacyBehavior>
+                    <a className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">Already have an account? Sign in</a>
+                </Link>
                 </div>
             </div>
         </div>
