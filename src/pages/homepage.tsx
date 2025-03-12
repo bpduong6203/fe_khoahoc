@@ -1,5 +1,5 @@
 import React from 'react';
-import Homepage from '@/layouts/hompage';
+import Homepage from '@/layouts/homepage';
 
 const LoginPage = () => {
   return (
