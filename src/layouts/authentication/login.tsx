@@ -1,29 +1,31 @@
-// src/layouts/authentication/login.tsx
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 import Link from 'next/link';
+import Image from 'next/image';
 import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import "../../app/globals.css";
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isEmailFocused, setIsEmailFocused] = useState(false);
+  const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
     setError('');
 
     try {
-      // Thêm logic xác thực ở đây
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Giả lập API call
-      router.push('/dashboard'); // Chuyển hướng sau khi đăng nhập thành công
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      router.push('/dashboard');
     } catch (err) {
-      setError('Invalid email or password');
+      setError('Email hoặc mật khẩu không hợp lệ');
     } finally {
       setIsLoading(false);
     }
@@ -32,126 +34,149 @@ const Login = () => {
   return (
     <>
       <Head>
-        <title>Login | My App</title>
+        <title>Đăng nhập | My App</title>
       </Head>
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 to-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-xl shadow-lg">
-          <div>
-            <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-              Welcome back
-            </h2>
-            <p className="mt-2 text-center text-sm text-gray-600">
-              Please sign in to your account
+      <div
+        className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('https://img.upanh.tv/2025/03/12/cubic-pixel-game-level-background-frame-vector.jpg')" }}
+      >
+        <div
+          className="w-full max-w-5xl flex backdrop-filter backdrop-blur-lg bg-white/5 rounded-xl shadow-2xl overflow-hidden"
+          style={{ transform: 'scale(0.85)' }}
+        >
+          <div className="w-1/2 py-6 px-12 flex flex-col justify-center backdrop-filter backdrop-blur-sm bg-white/60">
+            <h1 className="text-2xl font-semibold mb-1">
+              Chào mừng đăng nhập! <span role="img" aria-label="wave">👋</span>
+            </h1>
+            <p className="text-sm text-gray-700 mb-6">
+              Nhập tài khoản và mật khẩu để đăng nhập
             </p>
-          </div>
 
-          {error && (
-            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-              <span className="block sm:inline">{error}</span>
-            </div>
-          )}
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
+                <span className="block sm:inline">{error}</span>
+              </div>
+            )}
 
-          <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-            <div className="rounded-md shadow-sm space-y-4">
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email address
-                </label>
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <div className="relative">
                 <input
                   id="email"
                   name="email"
                   type="email"
                   required
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your email"
+                  className="w-full px-3 py-2 bg-white/70 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 peer"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
+                  onFocus={() => setIsEmailFocused(true)}
+                  onBlur={() => setIsEmailFocused(false)}
                 />
-              </div>
-              <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                  Password
+                <label
+                  htmlFor="email"
+                  className={`absolute left-3 text-sm text-gray-700 bg-white/5 px-1 transition-all duration-200
+                    ${(isEmailFocused || email) ? '-top-4 text-xs' : 'top-2 text-sm'}`}
+                >
+                  Tài khoản
                 </label>
+              </div>
+
+              <div className="relative">
                 <input
                   id="password"
                   name="password"
                   type="password"
                   required
-                  className="appearance-none rounded-lg relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your password"
+                  className="w-full px-3 py-2 bg-white/70 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 peer"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onFocus={() => setIsPasswordFocused(true)}
+                  onBlur={() => setIsPasswordFocused(false)}
                 />
-              </div>
-            </div>
-
-            <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember-me"
-                  name="remember-me"
-                  type="checkbox"
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                  Remember me
+                <label
+                  htmlFor="password"
+                  className={`absolute left-3 text-sm text-gray-700 bg-white/5 px-1 transition-all duration-200
+                    ${(isPasswordFocused || password) ? '-top-4 text-xs' : 'top-2 text-sm'}`}
+                >
+                  Mật khẩu
                 </label>
+                <div className="flex justify-between mt-2">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="remember-me"
+                      checked={rememberMe}
+                      onChange={(e) => setRememberMe(e.target.checked)}
+                      className="mr-2"
+                    />
+                    <label htmlFor="remember-me" className="text-xs text-gray-700">
+                      Ghi nhớ tôi
+                    </label>
+                  </div>
+                  <Link href="/forgot-password" className="text-xs text-blue-600 hover:underline">
+                    Quên mật khẩu?
+                  </Link>
+                </div>
               </div>
 
-              <div className="text-sm">
-                <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-                  Forgot your password?
-                </Link>
-              </div>
-            </div>
-
-            <div>
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white ${
-                  isLoading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200`}
+                className={`w-full py-2 px-4 text-white rounded-md focus:outline-none ${isLoading ? 'bg-gray-600' : 'bg-gray-800 hover:bg-gray-900'
+                  }`}
               >
-                {isLoading ? 'Signing in...' : 'Sign in'}
+                {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+              </button>
+            </form>
+
+            <div className="my-4 flex items-center">
+              <div className="flex-grow border-t border-gray-200"></div>
+              <span className="px-4 text-xs text-gray-500">Hoặc</span>
+              <div className="flex-grow border-t border-gray-200"></div>
+            </div>
+
+            <div className="space-y-2">
+              <button
+                type="button"
+                className="w-full flex items-center justify-center py-2 px-4 bg-white/70 border border-gray-200 rounded-md hover:bg-white/90"
+              >
+                <FaGoogle className="text-red-500 mr-2" size={16} />
+                <span className="text-sm">Đăng nhập với Google</span>
+              </button>
+              <button
+                type="button"
+                className="w-full flex items-center justify-center py-2 px-4 bg-white/70 border border-gray-200 rounded-md hover:bg-white/90"
+              >
+                <FaFacebook className="text-blue-600 mr-2" size={16} />
+                <span className="text-sm">Đăng nhập với Facebook</span>
               </button>
             </div>
 
-            <div className="mt-6">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <div className="w-full border-t border-gray-300"></div>
-                </div>
-                <div className="relative flex justify-center text-sm">
-                  <span className="px-2 bg-white text-gray-500">Or continue with</span>
-                </div>
-              </div>
-
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                >
-                  <FaGoogle className="w-5 h-5 text-red-500" />
-                  <span className="ml-2">Google</span>
-                </button>
-                <button
-                  type="button"
-                  className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
-                >
-                  <FaFacebook className="w-5 h-5 text-blue-600" />
-                  <span className="ml-2">Facebook</span>
-                </button>
-              </div>
+            <div className="mt-6 text-center">
+              <p className="text-xs text-gray-700">
+                Bạn chưa có tài khoản?{' '}
+                <Link href="/register" className="text-blue-600 hover:underline">
+                  Đăng ký
+                </Link>
+              </p>
             </div>
-          </form>
 
-          <p className="mt-4 text-center text-sm text-gray-600">
-            Don't have an account?{' '}
-            <Link href="/register" className="font-medium text-blue-600 hover:text-blue-500">
-              Sign up
-            </Link>
-          </p>
+            <div className="mt-6 text-center">
+              <p className="text-xs text-gray-500">© 2025 BIBON DESIGNER</p>
+            </div>
+          </div>
+
+          <div className="w-1/2">
+            <div className="w-full h-full relative">
+              <Image
+                src="https://img.upanh.tv/2025/03/12/1353838.png"
+                alt="Floral still life"
+                layout="fill"
+                objectFit="cover"
+                priority
+                unoptimized
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>
