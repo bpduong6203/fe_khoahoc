@@ -1,31 +1,33 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import Head from 'next/head';
-import Link from 'next/link';
-import Image from 'next/image';
-import { FaGoogle, FaFacebook } from 'react-icons/fa';
+import React, { useState } from "react";
+import { useRouter } from "next/router";
+import Head from "next/head";
+import Link from "next/link";
+import Image from "next/image";
+import { FaGoogle, FaFacebook } from "react-icons/fa";
 import "../../app/globals.css";
+import ForgotPasswordModal from "@/components/ForgotPasswordModal"; // Import modal
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isEmailFocused, setIsEmailFocused] = useState(false);
   const [isPasswordFocused, setIsPasswordFocused] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const router = useRouter();
+  const [isModalOpen, setIsModalOpen] = useState(false); // State để mở/đóng modal
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-    setError('');
+    setError("");
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      router.push('/dashboard');
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+      router.push("/dashboard");
     } catch (err) {
-      setError('Email hoặc mật khẩu không hợp lệ');
+      setError("Email hoặc mật khẩu không hợp lệ");
     } finally {
       setIsLoading(false);
     }
@@ -42,7 +44,7 @@ const Login = () => {
       >
         <div
           className="w-full max-w-5xl flex backdrop-filter backdrop-blur-lg bg-white/5 rounded-xl shadow-2xl overflow-hidden"
-          style={{ transform: 'scale(0.85)' }}
+          style={{ transform: "scale(0.85)" }}
         >
           <div className="w-1/2 py-6 px-12 flex flex-col justify-center backdrop-filter backdrop-blur-sm bg-white/60">
             <h1 className="text-2xl font-semibold mb-1">
@@ -74,7 +76,7 @@ const Login = () => {
                 <label
                   htmlFor="email"
                   className={`absolute left-3 text-sm text-gray-700 bg-white/5 px-1 transition-all duration-200
-                    ${(isEmailFocused || email) ? '-top-4 text-xs' : 'top-2 text-sm'}`}
+                    ${(isEmailFocused || email) ? "-top-4 text-xs" : "top-2 text-sm"}`}
                 >
                   Tài khoản
                 </label>
@@ -95,7 +97,7 @@ const Login = () => {
                 <label
                   htmlFor="password"
                   className={`absolute left-3 text-sm text-gray-700 bg-white/5 px-1 transition-all duration-200
-                    ${(isPasswordFocused || password) ? '-top-4 text-xs' : 'top-2 text-sm'}`}
+                    ${(isPasswordFocused || password) ? "-top-4 text-xs" : "top-2 text-sm"}`}
                 >
                   Mật khẩu
                 </label>
@@ -112,19 +114,21 @@ const Login = () => {
                       Ghi nhớ tôi
                     </label>
                   </div>
-                  <Link href="/forgot-password" className="text-xs text-blue-600 hover:underline">
+                  <button
+                    onClick={() => setIsModalOpen(true)} // Mở modal khi nhấn
+                    className="text-xs text-blue-600 hover:underline"
+                  >
                     Quên mật khẩu?
-                  </Link>
+                  </button>
                 </div>
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full py-2 px-4 text-white rounded-md focus:outline-none ${isLoading ? 'bg-gray-600' : 'bg-gray-800 hover:bg-gray-900'
-                  }`}
+                className={`w-full py-2 px-4 text-white rounded-md focus:outline-none ${isLoading ? "bg-gray-600" : "bg-gray-800 hover:bg-gray-900"}`}
               >
-                {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
+                {isLoading ? "Đang đăng nhập..." : "Đăng nhập"}
               </button>
             </form>
 
@@ -153,7 +157,7 @@ const Login = () => {
 
             <div className="mt-6 text-center">
               <p className="text-xs text-gray-700">
-                Bạn chưa có tài khoản?{' '}
+                Bạn chưa có tài khoản?{" "}
                 <Link href="/register" className="text-blue-600 hover:underline">
                   Đăng ký
                 </Link>
@@ -178,6 +182,9 @@ const Login = () => {
             </div>
           </div>
         </div>
+
+        {/* Thêm modal vào đây */}
+        <ForgotPasswordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       </div>
     </>
   );
