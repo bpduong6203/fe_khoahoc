@@ -4,6 +4,7 @@ import Link from 'next/link';
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 
 import DarkModeToggle from '@/components/dark-mode-toggle';
 
@@ -117,7 +118,7 @@ const RegisterPage = () => {
                     </div>
                 </form>
                 <div className="text-center">
-                <Link href="/login" legacyBehavior>
+                <Link href="/auth/login" legacyBehavior>
                     <a className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-300">Already have an account? Sign in</a>
                 </Link>
                 </div>
