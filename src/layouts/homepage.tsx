@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from "react";
 import Navbar from "@/layouts/homepage/Navbar";
 import Categories from "@/layouts/homepage/Categories";
