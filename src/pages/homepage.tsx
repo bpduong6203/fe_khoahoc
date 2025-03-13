@@ -1,11 +1,10 @@
 import React from 'react';
-
-import Dashboard from '@/layouts/dashboard';
+import Homepage from '@/layouts/homepage';
 
 const LoginPage = () => {
   return (
     <div>
-      <Dashboard />
+      <Homepage />
     </div>
   );
 };
