@@ -5,7 +5,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { FaGoogle, FaFacebook } from "react-icons/fa";
 import "../../app/globals.css";
-import ForgotPasswordModal from "@/components/ForgotPasswordModal"; // Import modal
+import ForgotPasswordModal from "@/components/ForgotPasswordModal"; 
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import DarkModeToggle from '@/components/dark-mode-toggle';
+import { Card, CardTitle } from '@/components/ui/card';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -63,6 +67,7 @@ const Login = () => {
             <form className="space-y-6" onSubmit={handleSubmit}>
               <div className="relative">
                 <input
+
                   id="email"
                   name="email"
                   type="email"
@@ -84,6 +89,7 @@ const Login = () => {
 
               <div className="relative">
                 <input
+
                   id="password"
                   name="password"
                   type="password"
@@ -136,6 +142,7 @@ const Login = () => {
               <div className="flex-grow border-t border-gray-200"></div>
               <span className="px-4 text-xs text-gray-500">Hoặc</span>
               <div className="flex-grow border-t border-gray-200"></div>
+
             </div>
 
             <div className="space-y-2">

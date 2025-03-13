@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { FaGoogle, FaFacebook } from 'react-icons/fa';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
 
 const RegisterPage = () => {
   const router = useRouter();
