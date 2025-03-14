@@ -42,41 +42,14 @@ const Login = () => {
       <Head>
         <title>Đăng nhập | My App</title>
       </Head>
-      <div className="min-h-screen flex items-center justify-center relative">
-        {/* Video background */}
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover z-0"
-        >
-         <source src="/login2.mp4" type="video/mp4" />
-          {/* Bạn có thể thêm các sources khác để hỗ trợ nhiều định dạng */}
-        </video>
-        
-        {/* Overlay để làm giảm độ sáng của video và tăng độ tương phản */}
-        <div className="absolute inset-0 bg-black/30 z-10"></div>
-        
+      <div
+        className="min-h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: "url('https://img.upanh.tv/2025/03/12/cubic-pixel-game-level-background-frame-vector.jpg')" }}
+      >
         <div
-          className="w-full max-w-5xl flex backdrop-filter backdrop-blur-lg bg-white/5 rounded-xl shadow-2xl overflow-hidden z-20"
+          className="w-full max-w-5xl flex backdrop-filter backdrop-blur-lg bg-white/5 rounded-xl shadow-2xl overflow-hidden"
           style={{ transform: "scale(0.85)" }}
         >
-          {/* Phần ảnh bên trái */}
-          <div className="w-1/2">
-            <div className="w-full h-full relative">
-              <Image
-                src="https://img.upanh.tv/2025/03/12/1353838.png"
-                alt="Floral still life"
-                layout="fill"
-                objectFit="cover"
-                priority
-                unoptimized
-              />
-            </div>
-          </div>
-
-          {/* Form đăng nhập bên phải */}
           <div className="w-1/2 py-6 px-12 flex flex-col justify-center backdrop-filter backdrop-blur-sm bg-white/60">
             <h1 className="text-2xl font-semibold mb-1">
               Chào mừng đăng nhập! <span role="img" aria-label="wave">👋</span>
@@ -200,6 +173,19 @@ const Login = () => {
 
             <div className="mt-6 text-center">
               <p className="text-xs text-gray-500">© 2025 BIBON DESIGNER</p>
+            </div>
+          </div>
+
+          <div className="w-1/2">
+            <div className="w-full h-full relative">
+              <Image
+                src="https://img.upanh.tv/2025/03/12/1353838.png"
+                alt="Floral still life"
+                layout="fill"
+                objectFit="cover"
+                priority
+                unoptimized
+              />
             </div>
           </div>
         </div>
