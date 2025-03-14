@@ -1,16 +1,16 @@
-// Navbar.tsx
 import React, { useState, useRef, useEffect } from "react";
 import { FaSearch, FaBell, FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import { useRouter } from "next/router";
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
+  const router = useRouter();
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const userMenuTimeoutRef = useRef(null);
-  const userMenuRef = useRef(null);
+  const userMenuTimeoutRef = useRef<number | null>(null);
+  const userMenuRef = useRef<HTMLDivElement>(null);
 
-  // Chuyển logic điều chỉnh vị trí menu sang useEffect để chỉ chạy ở client-side
   useEffect(() => {
     const adjustMenuPosition = () => {
-      if (userMenuRef.current && typeof window !== 'undefined') {
+      if (userMenuRef.current && typeof window !== "undefined") {
         const menu = userMenuRef.current;
         const rect = menu.getBoundingClientRect();
         const windowWidth = window.innerWidth;
@@ -48,16 +48,28 @@ const Navbar = () => {
   };
 
   const handleUserMenuLeave = () => {
-    // Sử dụng setTimeout ở client side thông qua useEffect
-    userMenuTimeoutRef.current = setTimeout(() => {
+    userMenuTimeoutRef.current = window.setTimeout(() => {
       setShowUserMenu(false);
     }, 200);
+  };
+
+  const navigateToCart = () => {
+    router.push("/cart/cartshopping");
+  };
+
+  const navigateToEditProfile = () => {
+    router.push("/profile/editprofile");
   };
 
   return (
     <nav className="flex items-center justify-between px-6 py-6 shadow-md bg-white">
       <div className="flex items-center space-x-4">
-        <h1 className="text-2xl font-bold text-purple-700">WEB LUA GA</h1>
+        <h1
+          className="text-2xl font-bold text-purple-700 cursor-pointer"
+          onClick={() => router.push("/")}
+        >
+          WEB LUA GA
+        </h1>
         <div className="relative">
           <input
             type="text"
@@ -68,9 +80,16 @@ const Navbar = () => {
         </div>
       </div>
       <div className="relative flex items-center space-x-6">
-        <a href="#" className="text-sm text-gray-700">Khóa học của bạn</a>
-        <a href="#" className="text-sm text-gray-700">Khóa học chia sẻ</a>
-        <FaShoppingCart className="text-gray-700 cursor-pointer" />
+        <a href="#" className="text-sm text-gray-700">
+          Khóa học của bạn
+        </a>
+        <a href="#" className="text-sm text-gray-700">
+          Khóa học chia sẻ
+        </a>
+        <FaShoppingCart
+          className="text-gray-700 cursor-pointer"
+          onClick={navigateToCart}
+        />
         <FaBell className="text-gray-700 cursor-pointer" />
         <div
           className="relative inline-block"
@@ -87,8 +106,12 @@ const Navbar = () => {
             >
               <style jsx>{`
                 @keyframes fadeIn {
-                  from { opacity: 0; }
-                  to { opacity: 1; }
+                  from {
+                    opacity: 0;
+                  }
+                  to {
+                    opacity: 1;
+                  }
                 }
               `}</style>
               <div className="flex items-center p-4 border-b">
@@ -96,13 +119,23 @@ const Navbar = () => {
                   <span className="text-xl">T</span>
                 </div>
                 <div>
-                  <p className="font-semibold">Lê Thanh Trúc</p>
+                  <p
+                    className="font-semibold cursor-pointer hover:text-purple-700"
+                    onClick={navigateToEditProfile} // Thêm sự kiện onClick
+                  >
+                    Lê Thanh Trúc
+                  </p>
                   <p className="text-sm text-gray-500">Truclek2@gmail.com</p>
                 </div>
               </div>
               <ul className="py-2">
+                <li
+                  className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                  onClick={navigateToCart}
+                >
+                  Giỏ hàng của tôi
+                </li>
                 {[
-                  "Giỏ hàng của tôi",
                   "Danh sách mong muốn",
                   "Đăng nhập Udemy",
                   "Cài đặt tài khoản",
@@ -114,7 +147,10 @@ const Navbar = () => {
                   "Chính sách bảo mật",
                   "Đăng xuất",
                 ].map((item, index) => (
-                  <li key={index} className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer">
+                  <li
+                    key={index}
+                    className="px-4 py-2 text-sm hover:bg-gray-100 cursor-pointer"
+                  >
                     {item}
                   </li>
                 ))}
