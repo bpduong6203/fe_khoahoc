@@ -1,7 +1,17 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Navbar from "@/layouts/homepage/Navbar";
 import { useRouter } from "next/router";
+
+// Helper function to format price consistently
+const formatPrice = (price) => {
+  return price.toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  });
+};
 
 const Cart = () => {
   const router = useRouter();
@@ -53,9 +63,8 @@ const Cart = () => {
     router.push("/payment/paycheckout");
   };
 
-  // Hàm xử lý quay về homepage
   const handleBackToHomepage = () => {
-    router.push("/homepage"); // Điều hướng về homepage
+    router.push("/homepage");
   };
 
   return (
@@ -72,7 +81,7 @@ const Cart = () => {
         <div className="flex items-center mb-2">
           <button
             className="flex items-center text-gray-600 hover:text-gray-800"
-            onClick={handleBackToHomepage} // Thay đổi để quay về homepage
+            onClick={handleBackToHomepage}
             style={{ padding: "0.5rem" }}
           >
             <svg
@@ -164,7 +173,7 @@ const Cart = () => {
                       ))}
                     </div>
                     <span className="text-xs text-gray-500 ml-1">
-                      ({item.ratings.toLocaleString()})
+                      ({item.ratings})
                     </span>
                   </div>
                 </div>
@@ -185,9 +194,7 @@ const Cart = () => {
                       />
                     </svg>
                   </button>
-                  <div className="font-bold text-lg">
-                    ₫{item.price.toLocaleString()}
-                  </div>
+                  <div className="font-bold text-lg">{formatPrice(item.price)}</div>
                 </div>
               </div>
             ))}
@@ -206,13 +213,11 @@ const Cart = () => {
             >
               <h2 className="text-lg font-bold mb-3">Total:</h2>
               <div className="flex justify-between items-center mb-2">
-                <span className="text-xl font-bold">
-                  ₫{totalPrice.toLocaleString()}
-                </span>
+                <span className="text-xl font-bold">{formatPrice(totalPrice)}</span>
               </div>
               <div className="flex justify-between items-center mb-4">
                 <span className="text-gray-500 line-through text-sm">
-                  ₫{originalTotalPrice.toLocaleString()}
+                  {formatPrice(originalTotalPrice)}
                 </span>
                 <span className="text-green-600 text-sm">{discount}% off</span>
               </div>

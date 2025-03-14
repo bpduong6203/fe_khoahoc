@@ -1,12 +1,15 @@
-import React from 'react';
-import Homepage from '../layouts/homepage';
+'use client';
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
-const LoginPage = () => {
-  return (
-    <div>
-      <Homepage />
-    </div>
-  );
+const HomePage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace('/homepage');
+  }, [router]);
+
+  return null;
 };
 
-export default LoginPage;
+export default HomePage;

@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useState } from "react";
 import Navbar from "@/layouts/homepage/Navbar";
 import Categories from "@/layouts/homepage/Categories";
@@ -7,6 +8,7 @@ import RecommendedCourses from "@/layouts/homepage/RecommendedCourses";
 import TopicsSection from "@/layouts/homepage/TopicsSection";
 import FeaturedCourses from "@/layouts/homepage/FeaturedCourses";
 import "@/app/globals.css";
+import AppLayoutClient from "@/layouts/app-layout-client"; // Import AppLayoutClient
 
 // Định nghĩa interface cho một khóa học
 interface Course {
@@ -168,18 +170,19 @@ const Homepage = () => {
   };
 
   return (
-    <div className="w-full min-h-screen bg-white">
-      <Navbar />
-      <Categories />
-      <Banner />
-      <RecommendedCourses
-        coursesByCategory={coursesByCategory}
-        selectedCategory={selectedCategory}
-        onCategorySelect={handleCategorySelect}
-      />
-      <TopicsSection />
-      <FeaturedCourses coursesByCategory={coursesByCategory} />
-    </div>
+    <AppLayoutClient> 
+      <div className="w-full min-h-screen bg-white">
+        <Categories />
+        <Banner />
+        <RecommendedCourses
+          coursesByCategory={coursesByCategory}
+          selectedCategory={selectedCategory}
+          onCategorySelect={handleCategorySelect}
+        />
+        <TopicsSection />
+        <FeaturedCourses coursesByCategory={coursesByCategory} />
+      </div>
+    </AppLayoutClient>
   );
 };
 
