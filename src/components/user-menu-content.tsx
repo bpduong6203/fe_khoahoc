@@ -3,7 +3,8 @@ import { UserInfo } from '@/components/user-info';
 import { useMobileNavigation } from '@/hooks/use-mobile-navigation';
 import { type User } from '@/types';
 import Link from 'next/link';
-import { LogOut, Settings } from 'lucide-react';
+import { LogOut, Settings, User2 } from 'lucide-react';
+import { Button } from './ui/button';
 
 interface UserMenuContentProps {
     user: User;
@@ -22,6 +23,12 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
+                    <Link className="block w-full" href="/profile/editprofile" as="button" prefetch onClick={cleanup}>
+                        <User2 className="mr-2" />
+                        Cá nhân
+                    </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
                      <button className="block w-full" >
                         <Settings className="mr-2" />
                         Settings
@@ -32,7 +39,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuItem asChild>
                 <button className="block w-full" >
                     <LogOut className="mr-2" />
-                    Log out
+                    Đăng xuất
                 </button>
             </DropdownMenuItem>
         </>

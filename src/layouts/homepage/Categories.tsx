@@ -38,7 +38,7 @@ const Categories = () => {
 
   return (
     <div className="relative px-4 py-4">
-      <div className="flex flex-wrap justify-center space-x-4 py-4 border-b">
+      <div className="flex flex-wrap justify-center space-x-4 py-4 border-b dark:border-neutral-700"> 
         {[
           "Phát triển",
           "Việc kinh doanh",
@@ -59,13 +59,13 @@ const Categories = () => {
           >
             <a
               href="#"
-              className="text-sm text-black dark:text-white hover:underline cursor-pointer"
+              className="text-sm hover:underline cursor-pointer"
             >
               {category}
             </a>
             {showSubMenu === category && subMenus[category] && (
               <div
-                className={`absolute top-full mt-2 w-64 max-w-xs bg-neutral-100 text-black dark:bg-neutral-700 dark:text-white shadow-lg rounded-lg z-50 overflow-auto ${
+                className={`absolute top-full mt-2 w-64 max-w-xs bg-neutral-10 dark:bg-neutral-900 shadow-lg rounded-lg z-50 overflow-auto ${
                   index === 0 ? "left-0" : "left-1/2 -translate-x-1/2"
                 }`}
                 onMouseEnter={() => {
@@ -76,11 +76,11 @@ const Categories = () => {
                 }}
                 onMouseLeave={handleSubMenuLeave}
               >
-                <ul className="py-2">
+                <ul className="py-1 px-1">
                   {subMenus[category]?.map((subItem, subIndex) => (
                     <li
                       key={subIndex}
-                      className="px-4 py-2 text-sm dark:hover:bg-neutral-100 dark:hover:text-black hover:bg-neutral-700 hover:text-white cursor-pointer"
+                      className="hover:block hover:rounded-sm px-4 py-2 text-sm dark:hover:bg-neutral-800 hover:bg-neutral-200 cursor-pointer"
                     >
                       {subItem}
                     </li>

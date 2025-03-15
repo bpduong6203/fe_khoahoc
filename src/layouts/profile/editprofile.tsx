@@ -4,7 +4,6 @@ import Navbar from "@/layouts/homepage/Navbar";
 const EditProfile = () => {
   return (
     <>
-      <Navbar />
       <div className="flex min-h-screen">
         {/* Sidebar */}
         <div className="w-full md:w-1/7 p-6 border-r bg-white shrink-0 relative z-0">

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 
 const Banner = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
-  
+
   // Dữ liệu cho 4 trang với màu nền khác nhau
   const slides = [
     {
@@ -44,12 +44,12 @@ const Banner = () => {
     const interval = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
     }, 5000);
-    
+
     return () => clearInterval(interval);
   }, [slides.length]);
 
   // Xử lý khi nhấp vào nút điều hướng
-  const goToSlide = (slideIndex) => {
+  const goToSlide = (slideIndex: number) => {
     setCurrentSlide(slideIndex);
   };
 
@@ -57,16 +57,15 @@ const Banner = () => {
     <div className="flex justify-center py-12 px-6">
       <div className="relative w-full max-w-6xl overflow-hidden rounded-lg shadow-md">
         {/* Container cho tất cả các slides */}
-        <div 
-          className="flex transition-transform duration-500 ease-in-out" 
+        <div
+          className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
         >
           {slides.map((slide, index) => (
-            <div 
+            <div
               key={index}
               className={`min-w-full h-80 ${slide.bgColor} flex items-center justify-between px-12`}
               style={{
-                backgroundImage: 'url("/path-to-your-banner-image.jpg")',
                 backgroundSize: "cover",
                 backgroundPosition: "center",
               }}
@@ -91,7 +90,7 @@ const Banner = () => {
             </div>
           ))}
         </div>
-        
+
         {/* Nút điều hướng tròn */}
         <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
           {slides.map((_, index) => (
@@ -99,7 +98,7 @@ const Banner = () => {
               key={index}
               onClick={() => goToSlide(index)}
               className={`w-3 h-3 rounded-full ${
-                currentSlide === index ? "bg-purple-700" : "bg-gray-300"
+                currentSlide === index ? "bg-neutral-600" : "bg-white"
               }`}
               aria-label={`Đi đến trang ${index + 1}`}
             />
