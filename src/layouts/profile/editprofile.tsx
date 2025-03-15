@@ -3,11 +3,11 @@ import Navbar from "@/layouts/homepage/Navbar";
 
 const EditProfile = () => {
   return (
-    <>
-      <div className="flex min-h-screen">
+    <div className="flex flex-col min-h-screen bg-neutral-100 dark:bg-neutral-800">
+      <div className="flex flex-col md:flex-row min-h-screen">
         {/* Sidebar */}
-        <div className="w-full md:w-1/7 p-6 border-r bg-white shrink-0 relative z-0">
-          <div className="flex items-center gap-2 mb-6 text-purple-700 font-medium cursor-pointer">
+        <div className="w-full md:w-1/7 p-6 border-r bg-white dark:bg-neutral-700 dark:border-neutral-600 shrink-0 relative z-0">
+          <div className="flex items-center gap-2 mb-6 text-purple-700 dark:text-purple-400 font-medium cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -25,7 +25,7 @@ const EditProfile = () => {
             <span>Edit profile</span>
           </div>
 
-          <div className="flex items-center gap-2 mb-6 text-gray-500 cursor-pointer">
+          <div className="flex items-center gap-2 mb-6 text-gray-500 dark:text-gray-300 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -43,7 +43,7 @@ const EditProfile = () => {
             <span>Notification</span>
           </div>
 
-          <div className="flex items-center gap-2 mb-6 text-gray-500 cursor-pointer">
+          <div className="flex items-center gap-2 mb-6 text-gray-500 dark:text-gray-300 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -61,7 +61,7 @@ const EditProfile = () => {
             <span>Security</span>
           </div>
 
-          <div className="flex items-center gap-2 mb-6 text-gray-500 cursor-pointer">
+          <div className="flex items-center gap-2 mb-6 text-gray-500 dark:text-gray-300 cursor-pointer">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"
@@ -81,14 +81,15 @@ const EditProfile = () => {
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 p-4">
+        <div className="flex-1 p-4 text-gray-900 dark:text-gray-100">
           <div className="relative">
             {/* Purple Banner */}
             <div
-              className="rounded-lg w-full"
+              className="rounded-lg w-full overflow-hidden"
               style={{
                 background: "linear-gradient(45deg, #9333ea, #c026d3)",
                 height: "clamp(150px, 30vh, 250px)",
+                position: "relative"
               }}
             >
               <div className="absolute inset-0">
@@ -111,7 +112,7 @@ const EditProfile = () => {
 
             {/* User Card */}
             <div className="absolute left-0 right-0 mx-auto top-[clamp(100px,22vh,200px)] w-full max-w-5xl">
-              <div className="bg-gray-50 rounded-lg p-4 border border-gray-300 shadow-lg">
+              <div className="bg-gray-50 dark:bg-neutral-700 rounded-lg p-4 border border-gray-300 dark:border-gray-600 shadow-lg">
                 <div className="flex items-center gap-3">
                   <img
                     src="https://img.upanh.tv/2025/03/14/avata-dep-nam-2.jpg"
@@ -120,7 +121,7 @@ const EditProfile = () => {
                   />
                   <div>
                     <h3 className="font-medium">Esthera Jackson</h3>
-                    <p className="text-sm text-gray-500">esthera@simmmple.com</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">esthera@simmmple.com</p>
                   </div>
                 </div>
               </div>
@@ -131,99 +132,73 @@ const EditProfile = () => {
           <div className="h-16 md:h-20"></div>
 
           {/* Edit Profile Form */}
-          <div className="bg-gray-50 rounded-lg p-4 md:p-6 mt-0 border border-gray-300 shadow-lg w-full max-w-5xl mx-auto">
+          <div className="bg-gray-50 dark:bg-neutral-700 rounded-lg p-4 md:p-6 mt-0 border border-gray-300 dark:border-gray-600 shadow-lg w-full max-w-5xl mx-auto">
             <h2 className="text-2xl font-bold mb-6">Edit profile</h2>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-gray-700 mb-2">First Name</label>
+                <label className="block text-gray-700 dark:text-gray-300 mb-2">First Name</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
                   defaultValue="Lê"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Email</label>
+                <label className="block text-gray-700 dark:text-gray-300 mb-2">Email</label>
                 <input
                   type="email"
-                  className="w-full border border-gray-300 rounded p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
                   defaultValue="Mehrabbozorgi.business@gmail.com"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Last Name</label>
+                <label className="block text-gray-700 dark:text-gray-300 mb-2">Last Name</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
                   defaultValue="thanh trúc"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Address</label>
+                <label className="block text-gray-700 dark:text-gray-300 mb-2">Address</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
                   defaultValue="33062 Zboncak Isle"
                 />
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">City</label>
-                <select className="w-full border border-gray-300 rounded p-2 appearance-none bg-white">
+                <label className="block text-gray-700 dark:text-gray-300 mb-2">City</label>
+                <select className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 appearance-none bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100">
                   <option>Mehrab</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-gray-700 mb-2">Contact Number</label>
+                <label className="block text-gray-700 dark:text-gray-300 mb-2">Contact Number</label>
                 <input
                   type="text"
-                  className="w-full border border-gray-300 rounded p-2"
+                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
                   defaultValue="58077.79"
                 />
               </div>
             </div>
 
             <div className="flex justify-end mt-6 gap-2">
-              <button className="px-6 py-2 border border-purple-500 text-purple-500 rounded">
+              <button className="px-6 py-2 border border-purple-500 text-purple-500 dark:text-purple-400 dark:border-purple-400 rounded">
                 Cancel
               </button>
-              <button className="px-6 py-2 bg-purple-600 text-white rounded">Save</button>
+              <button className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded">Save</button>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Media Queries */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .flex {
-            flex-direction: column;
-          }
-          .md\\:w-1/6 {
-            width: 100%;
-            border-right: none;
-            border-bottom: 1px solid #e5e7eb;
-          }
-          .md\\:grid-cols-2 {
-            grid-template-columns: 1fr;
-          }
-          .h-16 {
-            height: 2rem;
-          }
-          .max-w-5xl {
-            max-width: 100%;
-            width: 100%;
-            padding-left: 1rem;
-            padding-right: 1rem;
-          }
-        }
-      `}</style>
-    </>
+    </div>
   );
 };
 
