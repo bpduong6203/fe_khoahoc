@@ -171,7 +171,7 @@ const Homepage = () => {
 
   return (
     <AppLayoutClient> 
-      <div className="w-full min-h-screen bg-white">
+      <div className="w-full min-h-screen bg-neutral-100 dark:bg-neutral-800">
         <Categories />
         <Banner />
         <RecommendedCourses

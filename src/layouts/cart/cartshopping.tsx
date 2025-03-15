@@ -72,7 +72,6 @@ const Cart = () => {
       <Head>
         <title>Giỏ hàng | WEB LUA GA</title>
       </Head>
-      <Navbar />
       <div
         className="max-w-6xl mx-auto px-4 py-6"
         style={{ padding: "1rem", minHeight: "calc(100vh - 64px)" }}

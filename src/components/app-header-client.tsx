@@ -19,6 +19,7 @@ import { use } from 'react';
 import { useEffect, useState } from 'react';
 import { Auth } from '@/types';
 import { Input } from './ui/input';
+import DarkModeToggle from './dark-mode-toggle';
 
 
 const rightNavItems: NavItem[] = [
@@ -115,9 +116,10 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                         placeholder="Tìm kiếm"
                         className="hidden lg:block h-10 w-96 rounded-4xl focus-visible:ring-accent focus-visible:ring-offset-background focus-visible:outline-none"
                     />
-
+                    
                     <div className="ml-auto flex items-center space-x-2">
                         <div className="relative flex items-center space-x-1">
+                        < DarkModeToggle />
                             <div className="hidden lg:flex">
                                 {rightNavItems.map((item) => (
                                     <TooltipProvider key={item.title} delayDuration={0}>

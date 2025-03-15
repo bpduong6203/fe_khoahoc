@@ -1,11 +1,9 @@
-// Categories.tsx
 import React, { useState, useRef, useEffect } from "react";
 
 const Categories = () => {
-  const [showSubMenu, setShowSubMenu] = useState(null);
-  const subMenuTimeoutRef = useRef(null);
+  const [showSubMenu, setShowSubMenu] = useState<string | null>(null);
+  const subMenuTimeoutRef = useRef<number | null>(null);
 
-  // Sử dụng useEffect để đảm bảo code chỉ chạy ở client-side
   useEffect(() => {
     return () => {
       if (subMenuTimeoutRef.current) {
@@ -14,7 +12,7 @@ const Categories = () => {
     };
   }, []);
 
-  const subMenus = {
+  const subMenus: Record<string, string[]> = {
     "Phát triển": [
       "Web Development",
       "Mobile Development",
@@ -24,7 +22,7 @@ const Categories = () => {
     "CNTT & Phần mềm": ["Database Design & Development", "Software Testing"],
   };
 
-  const handleSubMenuEnter = (category) => {
+  const handleSubMenuEnter = (category: string) => {
     if (subMenuTimeoutRef.current) {
       clearTimeout(subMenuTimeoutRef.current);
       subMenuTimeoutRef.current = null;
@@ -33,15 +31,14 @@ const Categories = () => {
   };
 
   const handleSubMenuLeave = () => {
-    // Sử dụng setTimeout ở client side thông qua useEffect
-    subMenuTimeoutRef.current = setTimeout(() => {
+    subMenuTimeoutRef.current = window.setTimeout(() => {
       setShowSubMenu(null);
     }, 200);
   };
 
   return (
-    <div className="relative px-6 py-4">
-      <div className="flex justify-center space-x-6 py-4 border-b">
+    <div className="relative px-4 py-4">
+      <div className="flex flex-wrap justify-center space-x-4 py-4 border-b">
         {[
           "Phát triển",
           "Việc kinh doanh",
@@ -53,19 +50,24 @@ const Categories = () => {
           "Marketing",
           "Sức khỏe & Thể thao",
           "Âm nhạc",
-        ].map((category) => (
+        ].map((category, index) => (
           <div
             key={category}
             className="relative"
             onMouseEnter={() => handleSubMenuEnter(category)}
             onMouseLeave={handleSubMenuLeave}
           >
-            <a href="#" className="text-sm text-gray-600 hover:underline cursor-pointer">
+            <a
+              href="#"
+              className="text-sm text-black dark:text-white hover:underline cursor-pointer"
+            >
               {category}
             </a>
             {showSubMenu === category && subMenus[category] && (
               <div
-                className="absolute left-0 top-full mt-2 w-64 bg-black text-white shadow-lg rounded-lg z-50"
+                className={`absolute top-full mt-2 w-64 max-w-xs bg-neutral-100 text-black dark:bg-neutral-700 dark:text-white shadow-lg rounded-lg z-50 overflow-auto ${
+                  index === 0 ? "left-0" : "left-1/2 -translate-x-1/2"
+                }`}
                 onMouseEnter={() => {
                   if (subMenuTimeoutRef.current) {
                     clearTimeout(subMenuTimeoutRef.current);
@@ -75,8 +77,11 @@ const Categories = () => {
                 onMouseLeave={handleSubMenuLeave}
               >
                 <ul className="py-2">
-                  {subMenus[category].map((subItem, index) => (
-                    <li key={index} className="px-4 py-2 text-sm hover:bg-gray-700 cursor-pointer">
+                  {subMenus[category]?.map((subItem, subIndex) => (
+                    <li
+                      key={subIndex}
+                      className="px-4 py-2 text-sm dark:hover:bg-neutral-100 dark:hover:text-black hover:bg-neutral-700 hover:text-white cursor-pointer"
+                    >
                       {subItem}
                     </li>
                   ))}
