@@ -1,5 +1,6 @@
-// TopicsSection.tsx
 import React from "react";
+import HeadingSmall from "@/components/heading-small";
+import Heading from "@/components/heading";
 
 // Dữ liệu tĩnh thay vì sử dụng Math.random()
 const topicCourseCount = {
@@ -15,10 +16,8 @@ const TopicsSection = () => {
   return (
     <div className="px-6 py-12 bg-gray-50 dark:bg-neutral-700">
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-2xl font-bold">Khám phá nhiều chủ đề</h2>
-        <p className="mt-2 text-lg">
-          Học các kỹ năng mới nhất với các khóa học được cập nhật liên tục
-        </p>
+        <Heading title="Khám phá nhiều chủ đề" />
+        <HeadingSmall title="Học các kỹ năng mới nhất với các khóa học được cập nhật liên tục" />
 
         <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-3">
           {Object.entries(topicCourseCount).map(([topic, count], index) => (

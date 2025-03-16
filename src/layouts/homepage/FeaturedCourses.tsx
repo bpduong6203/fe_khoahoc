@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import HeadingSmall from "@/components/heading-small";
+import Heading from "@/components/heading";
 
 interface Course {
   title: string;
@@ -19,10 +21,8 @@ interface FeaturedCoursesProps {
 const FeaturedCourses: React.FC<FeaturedCoursesProps> = ({ coursesByCategory }) => {
   return (
     <div className="px-6 py-12 max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold">Khóa học nổi bật</h2>
-      <p className="dark:text-neutral-200 mt-2 text-lg">
-        Các khóa học được đánh giá cao và phổ biến nhất
-      </p>
+      <Heading title="Khóa học nổi bật" />
+      <HeadingSmall title="Các khóa học được đánh giá cao và phổ biến nhất" />
 
       <div className="grid grid-cols-1 gap-6 mt-6 sm:grid-cols-2 lg:grid-cols-2">
         {coursesByCategory["TECHNOLOGY & SOFTWARE"] &&

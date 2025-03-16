@@ -1,12 +1,10 @@
 import React from 'react';
 import Homepage from '@/layouts/homepage';
 
-const LoginPage = () => {
+export default function Homepages () {
   return (
     <div>
       <Homepage />
     </div>
   );
-};
-
-export default LoginPage;
+}

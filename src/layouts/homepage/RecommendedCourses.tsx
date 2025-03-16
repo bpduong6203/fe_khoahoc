@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import Tabs from "@/components/tab";
 import Carousel from "@/components/carousel";
 import CarouselNavigation from "@/components/carousel-navigation";
+import HeadingSmall from "@/components/heading-small";
+import Heading from "@/components/heading";
+import { Label } from "@/components/ui/label";
 
 interface RecommendedCoursesProps {
   coursesByCategory: { [key: string]: any[] };
@@ -39,8 +42,8 @@ const RecommendedCourses: React.FC<RecommendedCoursesProps> = ({
 
   return (
     <div className="px-6 py-12 max-w-6xl mx-auto">
-      <h2 className="text-2xl font-bold">Học gì tiếp theo ?</h2>
-      <p className="mt-2 text-lg">Đề xuất các khóa học hợp theo nhu cầu tìm kiếm của bạn !</p>
+      <Heading title="Học gì tiếp theo ?" />
+      <HeadingSmall title="Đề xuất các khóa học hợp theo nhu cầu tìm kiếm của bạn !" />
 
       <Tabs
         categories={[
@@ -73,7 +76,7 @@ const RecommendedCourses: React.FC<RecommendedCoursesProps> = ({
             )}
           </>
         ) : (
-          <p className="mt-4">Chưa có khóa học nào trong danh mục này.</p>
+          <Label>Chưa có khóa học nào trong danh mục này.</Label>
         )}
       </div>
     </div>

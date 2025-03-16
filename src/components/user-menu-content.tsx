@@ -23,16 +23,16 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
                 <DropdownMenuItem asChild>
-                    <Link className="block w-full" href="/profile/editprofile" as="button" prefetch onClick={cleanup}>
+                    <Link className="block w-full" href="/profile/editprofile" prefetch onClick={cleanup}>
                         <User2 className="mr-2" />
                         Cá nhân
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                     <button className="block w-full" >
+                     <Link className="block w-full" href="/settings/profile" prefetch onClick={cleanup}>
                         <Settings className="mr-2" />
                         Settings
-                    </button>
+                    </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
