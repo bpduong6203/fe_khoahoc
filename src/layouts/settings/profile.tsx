@@ -1,52 +1,95 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import Heading from "@/components/heading";
+import { type User } from "@/types";
+
+
+interface ProfileData extends User {
+  address?: string; // Thêm address nếu cần
+}
+
+interface UpdateProfileResponse {
+  message: string;
+  user: ProfileData;
+}
+
+interface ApiError {
+  message: string;
+}
 
 export default function EditProfile() {
-  const [profileData, setProfileData] = useState({
-    name: "Nguyễn Văn A",
-    email: "nguyenvana@example.com",
-    avatar: "",
-    address: "123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh",
-  });
+  const getInitialProfileData = (): ProfileData => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      return JSON.parse(storedUser);
+    }
+    return {
+      id: 0,
+      name: 'Nguyễn Văn A',
+      email: 'nguyenvana@example.com',
+      avatar: null,
+      email_verified_at: null,
+      created_at: '',
+      updated_at: '',
+      address: '123 Đường ABC, Quận XYZ, TP. Hồ Chí Minh',
+    };
+  };
 
+  const [profileData, setProfileData] = useState<ProfileData>(getInitialProfileData());
   const [alert, setAlert] = useState<{
     show: boolean;
-    type: "default" | "destructive";
+    type: 'default' | 'destructive';
     title: string;
     description: string;
   }>({
     show: false,
-    type: "default",
-    title: "",
-    description: "",
+    type: 'default',
+    title: '',
+    description: '',
   });
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof ProfileData, value: string) => {
     setProfileData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = () => {
-    // Giả lập xử lý logic lưu dữ liệu (ví dụ: gọi API)
-    setAlert({
-      show: true,
-      type: "default", // Hoặc "destructive" nếu có lỗi
-      title: "Cập nhật thành công!",
-      description: "Thông tin cá nhân của bạn đã được lưu lại.",
-    });
+  const handleSave = async () => {
+    setIsLoading(true);
+    setAlert({ show: false, type: 'default', title: '', description: '' });
 
-    // Ẩn thông báo sau 3 giây
-    setTimeout(() => setAlert({ ...alert, show: false }), 3000);
+    // try {
+    //   const response = await apiFetch<UpdateProfileResponse>('/update-profile', {
+    //     method: 'POST',
+    //     body: JSON.stringify(profileData),
+    //   });
+    //   localStorage.setItem('user', JSON.stringify(response.user));
+    //   setProfileData(response.user);
+    //   setAlert({
+    //     show: true,
+    //     type: 'default',
+    //     title: 'Cập nhật thành công!',
+    //     description: response.message,
+    //   });
+    // } catch (error) {
+    //   setAlert({
+    //     show: true,
+    //     type: 'destructive',
+    //     title: 'Lỗi',
+    //     description: (error as ApiError).message || 'Không thể cập nhật thông tin.',
+    //   });
+    // } finally {
+    //   setIsLoading(false);
+    //   setTimeout(() => setAlert((prev) => ({ ...prev, show: false })), 3000);
+    // }
   };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Hiển thị ảnh đã chọn
       const imageUrl = URL.createObjectURL(file);
       setProfileData((prev) => ({ ...prev, avatar: imageUrl }));
     }
@@ -70,7 +113,9 @@ export default function EditProfile() {
           {profileData.avatar ? (
             <AvatarImage src={profileData.avatar} alt="Ảnh đại diện" />
           ) : (
-            <AvatarFallback>NV</AvatarFallback>
+            <AvatarFallback>
+              {profileData.name ? profileData.name[0] : "NV"}
+            </AvatarFallback>
           )}
         </Avatar>
         <div>
@@ -115,8 +160,8 @@ export default function EditProfile() {
           <Label htmlFor="address">Địa chỉ</Label>
           <Input
             id="address"
-            type="address"
-            value={profileData.address}
+            type="text" // Sửa từ "address" thành "text" vì không có type="address"
+            value={profileData.address || ""}
             onChange={(e) => handleInputChange("address", e.target.value)}
             placeholder="Nhập địa chỉ của bạn"
           />
@@ -132,3 +177,4 @@ export default function EditProfile() {
     </div>
   );
 }
+
