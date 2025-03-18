@@ -1,4 +1,5 @@
 'use client';
+import { Moon, Sun } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
 import { FaSun, FaMoon } from 'react-icons/fa';
 
@@ -32,9 +33,9 @@ const DarkModeToggle = () => {
   return (
     <button
       onClick={toggleDarkMode}
-      className="fixed top-4 right-4 bg-gray-200 dark:bg-gray-700 text-black dark:text-white p-2 rounded-md flex items-center justify-center"
+      className="p-2 rounded-md flex items-center justify-center"
     >
-      {isDarkMode ? <FaSun size={20} /> : <FaMoon size={20} />}
+      {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
     </button>
   );
 };

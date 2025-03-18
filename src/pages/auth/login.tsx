@@ -1,12 +1,10 @@
 import React from 'react';
 import Login from '@/layouts/authentication/login';
 
-const LoginPage = () => {
+export default function LoginPage () {
   return (
     <div>
       <Login />
     </div>
   );
-};
-
-export default LoginPage;
+}

@@ -1,13 +1,11 @@
 import React from 'react';
-import Login from '@/layouts/authentication/login'; 
+
 import Dashboard from '@/layouts/dashboard';
 
-const LoginPage = () => {
+export default function Dashboards  () {
   return (
     <div>
       <Dashboard />
     </div>
   );
-};
-
-export default LoginPage;
+}
