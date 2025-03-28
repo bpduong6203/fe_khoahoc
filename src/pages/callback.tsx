@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { apiFetch } from '@/lib/api';
-import { User, LoginError } from '@/types/auth'; 
+import { User, LoginError } from '@/types/auth';
 
 export default function Callback() {
   const router = useRouter();
@@ -23,7 +23,16 @@ export default function Callback() {
         localStorage.setItem('token', token);
         const user = await apiFetch<User>('/user');
         localStorage.setItem('user', JSON.stringify(user));
-        router.push('/');
+
+        if (user.roles.includes('admin')) {
+          router.push('/dashboard'); 
+        } else if (user.roles.includes('user')) {
+          router.push('/'); 
+        } else {
+          setError('Không có vai trò hợp lệ');
+          localStorage.removeItem('token');
+          router.push('/auth/social');
+        }
       } catch (err) {
         const errorMessage = (err as LoginError).message || 'Lỗi khi xử lý callback';
         console.error('Lỗi:', err);

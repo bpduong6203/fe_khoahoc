@@ -24,12 +24,19 @@ const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) 
         data: { email, password },
       });
 
-      console.log('Login successful:', data);
-
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      router.push('/');
+      if (data.user.roles.includes('admin')) {
+        router.push('/dashboard'); 
+      } else if (data.user.roles.includes('user')) {
+        router.push('/');
+      } else {
+        setError('Không có vai trò hợp lệ');
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        router.push('/auth/login');
+      }
 
       if (onSubmit) {
         onSubmit(email, password);

@@ -1,3 +1,6 @@
+import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
@@ -7,13 +10,10 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { cn } from '@/lib/utils';
-import { type BreadcrumbItem, type NavItem, type Auth, type User } from '@/types'; // Import User
-import { useRouter } from 'next/router';
-import Link from 'next/link';
+import { type BreadcrumbItem, type NavItem, type Auth, type User } from '@/types';
 import { Bell, Menu, ShoppingBag } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import { useEffect, useState } from 'react';
 import { Input } from './ui/input';
 import DarkModeToggle from './dark-mode-toggle';
 
@@ -40,23 +40,20 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     user: { id: 0, name: '', email: '', avatar: null, email_verified_at: null, created_at: '', updated_at: '' },
   });
 
-  // Lấy dữ liệu từ localStorage khi component mount
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      const userData: User = JSON.parse(storedUser); // User đã được import
+      const userData: User = JSON.parse(storedUser);
       setAuth({ user: userData });
-    } else {
-      // Nếu không có dữ liệu, có thể chuyển hướng về trang đăng nhập
-      // router.push('/login');
     }
   }, [router]);
 
-  // Hàm lấy chữ cái đầu của tên
   const getInitials = (name: string) => {
-    if (!name) return 'NV'; // Giá trị mặc định nếu không có tên
+    if (!name) return 'NV';
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
+
+  const isAuthenticated = auth.user.id !== 0; 
 
   return (
     <>
@@ -107,7 +104,6 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
             <AppLogo />
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="ml-6 hidden h-full items-center space-x-6 lg:flex">
             <NavigationMenu className="flex h-full items-stretch">
               <NavigationMenuList className="flex h-full items-stretch space-x-2">
@@ -147,21 +143,33 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                 ))}
               </div>
             </div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="size-10 rounded-full p-1">
-                  <Avatar className="size-8 overflow-hidden rounded-full">
-                    <AvatarImage src={auth.user.avatar || ''} alt={auth.user.name || 'User'} />
-                    <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
-                      {getInitials(auth.user.name)}
-                    </AvatarFallback>
-                  </Avatar>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <UserMenuContent user={auth.user} />
-              </DropdownMenuContent>
-            </DropdownMenu>
+
+            {/* Kiểm tra trạng thái đăng nhập */}
+            {isAuthenticated ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="size-10 rounded-full p-1">
+                    <Avatar className="size-8 overflow-hidden rounded-full">
+                      <AvatarImage src={auth.user.avatar || ''} alt={auth.user.name || 'User'} />
+                      <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
+                        {getInitials(auth.user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <UserMenuContent user={auth.user} />
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Button
+                variant="outline"
+                className="h-10 px-4"
+                onClick={() => router.push('/auth/login')}
+              >
+                Đăng nhập
+              </Button>
+            )}
           </div>
         </div>
       </div>
