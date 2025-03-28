@@ -1,45 +1,34 @@
-interface User {
-  id: number;
-  name: string;
-  avatar: string | null;
-  email: string;
-  email_verified_at: string | null;
-  created_at: string;
-  updated_at: string;
-}
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
+import { LoginResponse, LoginError } from '@/types/auth';
 
-interface LoginResponse {
-  message: string;
-  token: string;
-  user: User;
-}
-
-interface LoginError {
-  message: string;
-}
-
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+const api = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://127.0.0.1:8000/api/',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
 
 export async function apiFetch<T = any>(
   endpoint: string,
-  options: RequestInit = {}
+  options: AxiosRequestConfig = {}
 ): Promise<T> {
-  const token = localStorage.getItem("token");
-  const url = `${baseUrl}${endpoint}`;
+  const token = localStorage.getItem('token');
 
-  const response = await fetch(url, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers || {}),
-    },
-  });
+  try {
+    const response = await api.request<T>({
+      url: endpoint,
+      ...options,
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...(options.headers || {}),
+      },
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Lỗi không xác định") as LoginError;
+    return response.data;
+  } catch (error) {
+    const axiosError = error as AxiosError<LoginError>;
+    throw new Error(
+      axiosError.response?.data?.message || 'Lỗi không xác định'
+    ) as LoginError;
   }
-
-  return response.json() as Promise<T>;
 }

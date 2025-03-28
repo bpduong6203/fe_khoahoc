@@ -4,22 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { apiFetch } from '@/lib/api';
-
-interface RegisterResponse {
-  message: string;
-  token: string;
-  user: {
-    id: number;
-    name: string;
-    email: string;
-    created_at: string;
-    updated_at: string;
-  };
-}
-
-interface LoginError {
-  message: string;
-}
+import { RegisterResponse, LoginError, User } from '@/types/auth';
 
 const RegisterForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) => void }) => {
   const [email, setEmail] = useState<string>('');
@@ -35,36 +20,27 @@ const RegisterForm = ({ onSubmit }: { onSubmit?: (email: string, password: strin
     setError('');
 
     try {
-      const data: RegisterResponse = await apiFetch<RegisterResponse>('/register', {
+      const data = await apiFetch<RegisterResponse>('/register', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name, // Thêm name vào payload
+        data: {
+          name,
           email,
           password,
-        }),
+        },
       });
 
       console.log('Register successful:', data);
 
-      // Lưu token và user vào localStorage
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
 
-      // Chuyển hướng về trang chủ
       router.push('/');
 
-      // Gọi callback nếu có
       if (onSubmit) {
         onSubmit(email, password);
       }
     } catch (err) {
-      // Xử lý lỗi từ API Laravel
-      const errorMessage = (err as any).response?.data?.message || 'Đã xảy ra lỗi khi đăng ký';
-      setError(errorMessage);
+      setError((err as LoginError).message || 'Đã xảy ra lỗi khi đăng ký');
     } finally {
       setIsLoading(false);
     }
