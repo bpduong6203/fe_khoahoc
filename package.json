@@ -2,6 +2,7 @@
   "name": "my-nextjs-app",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://127.0.0.1:8000",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -21,6 +22,7 @@
     "@radix-ui/react-slot": "^1.1.2",
     "@radix-ui/react-toggle-group": "^1.1.2",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
     "lucide-react": "^0.479.0",
     "my-nextjs-app": "file:",
