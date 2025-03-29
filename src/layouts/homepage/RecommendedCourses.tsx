@@ -47,6 +47,7 @@ const RecommendedCourses: React.FC<RecommendedCoursesProps> = ({
 
       <Tabs
         categories={[
+          
           "TECHNOLOGY & SOFTWARE",
           "IT & SOFTWARE",
           "DESIGN & CREATIVE ARTS",
@@ -60,6 +61,7 @@ const RecommendedCourses: React.FC<RecommendedCoursesProps> = ({
       />
 
       <div className="relative mt-8">
+        
         {coursesByCategory[selectedCategory]?.length > 0 ? (
           <>
             <Carousel

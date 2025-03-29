@@ -20,7 +20,7 @@ const CourseCurriculum = () => {
   const [sections, setSections] = useState<Section[]>([
     { 
       id: 1, 
-      title: "Ngày 1 - Người mới bắt đầu - Làm việc với các biến trong Python để quản lý dữ liệu", 
+      title: "Buổi 1 - Người mới bắt đầu - Làm việc với các biến trong Python để quản lý dữ liệu", 
       duration: "1 giờ 12 phút",
       expanded: false,
       lectures: [
@@ -32,7 +32,7 @@ const CourseCurriculum = () => {
     },
     { 
       id: 2, 
-      title: "Ngày 2 - Người mới bắt đầu - Hiểu về các kiểu dữ liệu và cách thao tác chuỗi", 
+      title: "Buổi 2 - Người mới bắt đầu - Hiểu về các kiểu dữ liệu và cách thao tác chuỗi", 
       duration: "58 phút",
       expanded: true,
       lectures: [
@@ -50,7 +50,7 @@ const CourseCurriculum = () => {
     },
     { 
       id: 3, 
-      title: "Ngày 3 - Người mới bắt đầu - Kiểm soát luồng và toán tử logic", 
+      title: "Buổi 3 - Người mới bắt đầu - Kiểm soát luồng và toán tử logic", 
       duration: "1 giờ 15 phút",
       expanded: false,
       lectures: [
@@ -60,28 +60,28 @@ const CourseCurriculum = () => {
     },
     { 
       id: 4, 
-      title: "Ngày 4 - Người mới bắt đầu - Ngẫu nhiên hóa và Danh sách Python", 
+      title: "Buổi 4 - Người mới bắt đầu - Ngẫu nhiên hóa và Danh sách Python", 
       duration: "1 giờ 4 phút",
       expanded: false,
       lectures: []
     },
     { 
       id: 5, 
-      title: "Ngày 5 - Người mới bắt đầu - Vòng lặp Python", 
+      title: "Buổi 5 - Người mới bắt đầu - Vòng lặp Python", 
       duration: "41 phút",
       expanded: false,
       lectures: []
     },
     { 
       id: 6, 
-      title: "Ngày 6 - Người mới bắt đầu - Hàm Python & Karel", 
+      title: "Buổi 6 - Người mới bắt đầu - Hàm Python & Karel", 
       duration: "1 giờ 23 phút",
       expanded: false,
       lectures: []
     },
     { 
       id: 7, 
-      title: "Ngày 7 - Người mới bắt đầu - Hangman", 
+      title: "Buổi 7 - Người mới bắt đầu - Hangman", 
       duration: "58 phút",
       expanded: false,
       lectures: []
