@@ -1,63 +1,43 @@
 import Link from 'next/link';
+import Image from 'next/image'; // Import the Image component
 import AppLayoutClient from '@/layouts/app-layout-client';
-import "@/app/globals.css"
+import "@/app/globals.css";
 
 export default function ForbiddenPage() {
-    return (
-        <AppLayoutClient>
-            <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-red-500 to-orange-500">
-                <div className="bg-white p-8 rounded-lg shadow-xl max-w-md w-full text-center transform transition-all hover:scale-105">
-                    {/* Icon cấm */}
-                    <div className="mb-6">
-                        <svg
-                            className="w-24 h-24 mx-auto text-red-600 animate-pulse"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M18.364 5.636l-12.728 12.728M5.636 5.636l12.728 12.728"
-                            />
-                            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" fill="none" />
-                        </svg>
-                    </div>
+  return (
+    <AppLayoutClient>
+      <div className="min-h-screen flex items-center justify-center bg-white p-4">
+        <div className="container max-w-6xl flex flex-col md:flex-row items-center justify-between">
+        {/* Left side with title and text */}
+        <div className="md:w-1/2 text-left mb-8 md:mb-0 px-[10%]">
+            <h1 className="text-5xl font-bold text-gray-800 mb-2">Ooops....</h1>
+            <p className="text-xl text-gray-700 mb-4">Page not found</p>
+            <p className="text-base text-gray-600 mb-8 max-w-md">
+              Rất tiếc! Bạn không có quyền truy cập vào trang<br />
+              này. Hãy kiểm tra lại hoặc liên hệ quản trị viên.
+            </p>
+            <Link
+              href="/"
+              className="inline-block bg-[oklch(0.86_0.18_88.9)] hover:bg-[oklch(0.86_0.18_78.9)] text-black px-8 py-3 rounded-md font-medium transition duration-300"
+            >
+              Quay về
+            </Link>
+          </div>
 
-                    {/* Tiêu đề */}
-                    <h1 className="text-4xl font-bold text-gray-800 mb-4">403 - Forbidden</h1>
-
-                    {/* Thông báo */}
-                    <p className="text-gray-600 mb-6">
-                        Rất tiếc! Bạn không có quyền truy cập vào trang này. Hãy kiểm tra lại hoặc liên hệ quản trị viên.
-                    </p>
-
-                    {/* Nút hành động */}
-                    <div className="space-y-4">
-                        <Link
-                            href="/"
-                            className="inline-block bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 transition duration-300"
-                        >
-                            Quay về trang chủ
-                        </Link>
-                        <button
-                            onClick={() => window.history.back()}
-                            className="inline-block bg-gray-300 text-gray-800 px-6 py-3 rounded-full font-semibold hover:bg-gray-400 transition duration-300"
-                        >
-                            Quay lại trang trước
-                        </button>
-                    </div>
-
-                    {/* Hiệu ứng thêm */}
-                    <div className="mt-8">
-                        <p className="text-sm text-gray-500">
-                            © 2025 - Hệ thống học trực tuyến
-                        </p>
-                    </div>
-                </div>
+          {/* Right side with image */}
+          <div className="md:w-1/2 flex justify-center px-[2%]">
+            <div className="relative w-full h-full">
+              <Image
+                src="/5229770.jpg" 
+                alt="403 Forbidden"
+                width={600} // Specify the width of the image
+                height={500} // Specify the height of the image
+                className="object-contain"
+              />
             </div>
-        </AppLayoutClient>
-    );
+          </div>
+        </div>
+      </div>
+    </AppLayoutClient>
+  );
 }
