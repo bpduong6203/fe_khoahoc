@@ -5,6 +5,9 @@ import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { apiFetch } from '@/lib/api';
 import { LoginResponse, LoginError } from '@/types/auth';
+import { Checkbox } from '../ui/checkbox';
+import { Label } from '../ui/label';
+import Link from 'next/link';
 
 const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) => void }) => {
   const [email, setEmail] = useState<string>('');
@@ -29,7 +32,7 @@ const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) 
       localStorage.setItem('user', JSON.stringify(data.user));
 
       if (data.user.roles.includes('admin')) {
-        router.push('/dashboard'); 
+        router.push('/dashboard');
       } else if (data.user.roles.includes('user')) {
         router.push('/');
       } else {
@@ -78,43 +81,29 @@ const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) 
       />
 
       {/* Checkbox "Ghi nhớ tôi" và nút "Quên mật khẩu?" */}
-      <div className="flex justify-between">
-        <div className="flex items-center">
-          <input
-            type="checkbox"
-            id="remember-me"
-            checked={rememberMe}
-            onChange={(e) => setRememberMe(e.target.checked)}
-            className="mr-2"
-          />
-          <label htmlFor="remember-me" className="text-xs">
-            Ghi nhớ tôi
-          </label>
+      <div className="mt-6 text-center p-2">
+        <div className="flex justify-between items-center text-sm text-gray-700">
+          <div className="flex items-center">
+            <Checkbox
+              id="remember-me"
+              checked={rememberMe}
+              onCheckedChange={(checked) => setRememberMe(!!checked)}
+              className="mr-2"
+            />
+            <Label htmlFor="remember-me">Ghi nhớ tôi</Label>
+          </div>
+
+          <Link href="/auth/forgotpassword" className="text-blue-600 hover:underline">
+            Quên mật khẩu?
+          </Link>
         </div>
-        <button
-          type="button" // Không submit form
-          className="text-xs text-blue-600 hover:underline"
-          onClick={() => alert("Chức năng quên mật khẩu đang được phát triển!")} // Placeholder
-        >
-          Quên mật khẩu?
-        </button>
       </div>
+
 
       {/* Nút Đăng nhập */}
       <Button type="submit" disabled={isLoading} className="w-full">
         {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
       </Button>
-
-      {/* Nút Đăng ký tài khoản */}
-      <div className="text-center">
-        <button
-          type="button" // Không submit form
-          className="text-xs text-blue-600 hover:underline"
-          onClick={handleRegisterClick}
-        >
-          Đăng ký tài khoản
-        </button>
-      </div>
     </form>
   );
 };

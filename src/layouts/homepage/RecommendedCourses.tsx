@@ -1,5 +1,5 @@
 import React from "react";
-import Slider from "react-slick"; // Thay thế Carousel bằng react-slick
+import Slider from "react-slick";
 import Tabs from "@/components/tab";
 import HeadingSmall from "@/components/heading-small";
 import Heading from "@/components/heading";

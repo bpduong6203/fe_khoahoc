@@ -35,7 +35,7 @@ const Login = () => {
           </div>
           <SocialLoginButtons />
           <div className="mt-6 text-center">
-            <p className="text-xs text-gray-700">
+            <p className="text-sm text-gray-700">
               Bạn chưa có tài khoản?{' '}
               <Link href="/auth/register" className="text-blue-600 hover:underline">
                 Đăng ký
