@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+import Slider from "react-slick"; // Thay thế Carousel bằng react-slick
 import Tabs from "@/components/tab";
-import Carousel from "@/components/carousel";
-import CarouselNavigation from "@/components/carousel-navigation";
 import HeadingSmall from "@/components/heading-small";
 import Heading from "@/components/heading";
 import { Label } from "@/components/ui/label";
+import "slick-carousel/slick/slick.css"; // Đảm bảo import CSS
+import "slick-carousel/slick/slick-theme.css";
 
 interface RecommendedCoursesProps {
   coursesByCategory: { [key: string]: any[] };
@@ -12,33 +13,44 @@ interface RecommendedCoursesProps {
   onCategorySelect: (category: string) => void;
 }
 
+
 const RecommendedCourses: React.FC<RecommendedCoursesProps> = ({
   coursesByCategory,
   selectedCategory,
   onCategorySelect,
 }) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  const handleNextSlide = () => {
-    if (coursesByCategory[selectedCategory]) {
-      const totalPages = Math.ceil(coursesByCategory[selectedCategory].length / 4);
-      setCurrentSlide((prev) => (prev + 1) % totalPages);
-    }
+  // Cấu hình cho Slider (react-slick)
+  const settings = {
+    dots: true, // Hiển thị chấm (dots) để điều hướng
+    infinite: true, // Lặp vô hạn
+    speed: 500, // Tốc độ chuyển slide (ms)
+    slidesToShow: 4, // Hiển thị 4 khóa học mỗi lần
+    slidesToScroll: 4, // Cuộn 4 khóa học khi nhấn next/prev
+    arrows: true, // Hiển thị nút trái/phải
+    responsive: [
+      {
+        breakpoint: 1024, // Dưới 1024px
+        settings: {
+          slidesToShow: 3,
+          slidesToScroll: 3,
+        },
+      },
+      {
+        breakpoint: 768, // Dưới 768px
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+        },
+      },
+      {
+        breakpoint: 480, // Dưới 480px
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+        },
+      },
+    ],
   };
-
-  const handlePrevSlide = () => {
-    if (coursesByCategory[selectedCategory]) {
-      const totalPages = Math.ceil(coursesByCategory[selectedCategory].length / 4);
-      setCurrentSlide((prev) => (prev - 1 + totalPages) % totalPages);
-    }
-  };
-
-  const shouldShowNavigation =
-    coursesByCategory[selectedCategory] && coursesByCategory[selectedCategory].length > 4;
-
-  const totalPages = coursesByCategory[selectedCategory]
-    ? Math.ceil(coursesByCategory[selectedCategory].length / 4)
-    : 0;
 
   return (
     <div className="px-6 py-12 max-w-6xl mx-auto">
@@ -61,20 +73,21 @@ const RecommendedCourses: React.FC<RecommendedCoursesProps> = ({
 
       <div className="relative mt-8">
         {coursesByCategory[selectedCategory]?.length > 0 ? (
-          <>
-            <Carousel
-              courses={coursesByCategory[selectedCategory]}
-              currentSlide={currentSlide}
-            />
-            {shouldShowNavigation && (
-              <CarouselNavigation
-                handlePrevSlide={handlePrevSlide}
-                handleNextSlide={handleNextSlide}
-                currentSlide={currentSlide}
-                totalPages={totalPages}
-              />
-            )}
-          </>
+          <Slider {...settings}>
+            {coursesByCategory[selectedCategory].map((course, index) => (
+              <div key={index} className="px-2">
+                {/* Thay thế bằng cách render card của bạn */}
+                <div className="course-card">
+                  <img src={course.image} alt={course.title} className="w-full h-40 object-cover" />
+                  <h3 className="text-lg font-semibold">{course.title}</h3>
+                  <p className="text-sm text-gray-600">{course.author}</p>
+                  <p className="text-sm">{course.price}</p>
+                  <p className="text-sm">Rating: {course.rating}</p>
+                  <p className="text-sm">Participants: {course.participants}</p>
+                </div>
+              </div>
+            ))}
+          </Slider>
         ) : (
           <Label>Chưa có khóa học nào trong danh mục này.</Label>
         )}

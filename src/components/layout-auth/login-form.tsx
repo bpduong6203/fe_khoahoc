@@ -11,6 +11,7 @@ const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) 
   const [password, setPassword] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(false); // State cho checkbox
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -48,6 +49,10 @@ const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) 
     }
   };
 
+  const handleRegisterClick = () => {
+    router.push("/auth/register"); // Chuyển hướng đến trang đăng ký
+  };
+
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
       {error && <InputError message={error} />}
@@ -72,9 +77,44 @@ const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) 
         placeholder="Mật khẩu"
       />
 
+      {/* Checkbox "Ghi nhớ tôi" và nút "Quên mật khẩu?" */}
+      <div className="flex justify-between">
+        <div className="flex items-center">
+          <input
+            type="checkbox"
+            id="remember-me"
+            checked={rememberMe}
+            onChange={(e) => setRememberMe(e.target.checked)}
+            className="mr-2"
+          />
+          <label htmlFor="remember-me" className="text-xs">
+            Ghi nhớ tôi
+          </label>
+        </div>
+        <button
+          type="button" // Không submit form
+          className="text-xs text-blue-600 hover:underline"
+          onClick={() => alert("Chức năng quên mật khẩu đang được phát triển!")} // Placeholder
+        >
+          Quên mật khẩu?
+        </button>
+      </div>
+
+      {/* Nút Đăng nhập */}
       <Button type="submit" disabled={isLoading} className="w-full">
         {isLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
       </Button>
+
+      {/* Nút Đăng ký tài khoản */}
+      <div className="text-center">
+        <button
+          type="button" // Không submit form
+          className="text-xs text-blue-600 hover:underline"
+          onClick={handleRegisterClick}
+        >
+          Đăng ký tài khoản
+        </button>
+      </div>
     </form>
   );
 };

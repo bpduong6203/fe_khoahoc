@@ -1,5 +1,6 @@
 @import 'tailwindcss';
-
+@import "slick-carousel/slick/slick.css";
+@import "slick-carousel/slick/slick-theme.css";
 @plugin 'tailwindcss-animate';
 
 @custom-variant dark (&:is(.dark *));
@@ -155,4 +156,9 @@
     scrollbar-width: none; /* Firefox */
   }
   
-  
+  .slick-prev::before,
+  .slick-next::before {
+    color: #b6da56 !important;
+    font-size: 30px !important;
+    
+  }
