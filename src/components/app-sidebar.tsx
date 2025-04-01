@@ -13,6 +13,17 @@ const mainNavItems: NavItem[] = [
         url: '/dashboard',
         icon: LayoutGrid,
     },
+    {
+        title: 'Category',
+        url: '/dashboard/category',
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Courses',
+        url: '/dashboard/courses',
+        icon: LayoutGrid,
+    },
+    
 ];
 
 const footerNavItems: NavItem[] = [

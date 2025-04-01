@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import DetailsCourse from '@/layouts/course/DetailsCourse';
+import DetailsCourse from '@/layouts/user/course/DetailsCourse';
 import AppLayoutClient from '@/layouts/app-layout-client';
 import "../../app/globals.css";
 

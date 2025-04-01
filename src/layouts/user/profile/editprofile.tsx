@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "@/layouts/homepage/Navbar";
+import Navbar from "@/layouts/user/homepage/Navbar";
 
 const EditProfile = () => {
   return (

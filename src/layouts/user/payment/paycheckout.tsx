@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import SimpleNavbar from "@/layouts/homepage/SimpleNavbar"; // Đảm bảo import đúng
+import SimpleNavbar from "@/layouts/user/homepage/SimpleNavbar"; // Đảm bảo import đúng
 
 const PayCheckout = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
