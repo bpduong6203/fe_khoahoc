@@ -3,6 +3,7 @@ import { apiFetch } from '@/lib/api';
 import GenericModal from '@/components/generic-modal';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 
 
 interface Category {
@@ -87,69 +88,75 @@ export default function CategoriesPage() {
     ];
 
     return (
-        <div className="container mx-auto p-6">
-            <div className="flex justify-between items-center mb-6">
-                <Heading title="List Category" />
-                <Button onClick={openCreateModal} variant={"secondary"}>
-                    New
-                </Button>
-            </div>
+        <Card>
+            <CardHeader>
+               <CardTitle className="flex items-center justify-between">
+                    List Category
+                    <Button onClick={openCreateModal} variant={"secondary"}>
+                        New
+                    </Button>
+                </CardTitle>
+            </CardHeader>
 
-            {loading ? (
-                <p className="text-center">Đang tải...</p>
-            ) : (
-                <div className="overflow-x-auto rounded-sm">
-                    <table className="min-w-full bg-neutral-50 border rounded-2xl shadow">
-                        <thead>
-                            <tr className="bg-neutral-200 uppercase text-xs tracking-wide">
-                                <th
-                                    className="px-4 py-3 text-left cursor-pointer font-medium hover:text-neutral-900 transition-colors"
-                                    onClick={toggleSortOrder}
-                                >
-                                    Name {sortOrder === 'asc' ? '↑' : '↓'}
-                                </th>
-                                <th className="px-4 py-3 text-left font-medium">
-                                    Description
-                                </th>
-                                <th className="px-4 py-3 text-left font-medium">
-                                    Status
-                                </th>
-                                <th className="px-4 py-3 text-left font-medium">
-                                    Action
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {categories.map((category) => (
-                                <tr key={category.id} className="border-t border-neutral-200 hover:bg-neutral-100 transition-colors">
-                                    <td className="px-4 py-2">{category.name}</td>
-                                    <td className="px-4 py-2">{category.description || 'N/A'}</td>
-                                    <td className="px-4 py-2">{category.status}</td>
-                                    <td className="px-4 py-2">
-                                        <Button
-                                            onClick={() => openEditModal(category)}
-                                            variant={"outline"}
-                                        >
-                                            Edit
-                                        </Button>
-                                    </td>
+            <CardContent>
+                {loading ? (
+                    <p className="text-center">Đang tải...</p>
+                ) : (
+                    <div className="overflow-x-auto rounded-sm">
+                        <table className="min-w-full bg-neutral-50 border rounded-2xl shadow">
+                            <thead>
+                                <tr className="bg-neutral-200 uppercase text-xs tracking-wide">
+                                    <th
+                                        className="px-4 py-3 text-left cursor-pointer font-medium hover:text-neutral-900 transition-colors"
+                                        onClick={toggleSortOrder}
+                                    >
+                                        Name {sortOrder === 'asc' ? '↑' : '↓'}
+                                    </th>
+                                    <th className="px-4 py-3 text-left font-medium">
+                                        Description
+                                    </th>
+                                    <th className="px-4 py-3 text-left font-medium">
+                                        Status
+                                    </th>
+                                    <th className="px-4 py-3 text-left font-medium">
+                                        Action
+                                    </th>
                                 </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            )}
+                            </thead>
+                            <tbody>
+                                {categories.map((category) => (
+                                    <tr key={category.id} className="border-t border-neutral-200 hover:bg-neutral-100 transition-colors">
+                                        <td className="px-4 py-2">{category.name}</td>
+                                        <td className="px-4 py-2">{category.description || 'N/A'}</td>
+                                        <td className="px-4 py-2">{category.status}</td>
+                                        <td className="px-4 py-2">
+                                            <Button
+                                                onClick={() => openEditModal(category)}
+                                                variant={"outline"}
+                                            >
+                                                Edit
+                                            </Button>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
 
-            <GenericModal
-                isOpen={modalOpen}
-                onClose={() => setModalOpen(false)}
-                title={selectedCategory ? 'Edit Category' : 'New Category'}
-                initialData={selectedCategory || {}}
-                fields={categoryFields}
-                apiEndpoint={selectedCategory ? `/categories/${selectedCategory.id}` : '/categories'}
-                method={selectedCategory ? 'PUT' : 'POST'}
-                onSave={handleSave}
-            />
-        </div>
+                <GenericModal
+                    isOpen={modalOpen}
+                    onClose={() => setModalOpen(false)}
+                    title={selectedCategory ? 'Edit Category' : 'New Category'}
+                    initialData={selectedCategory || {}}
+                    fields={categoryFields}
+                    apiEndpoint={selectedCategory ? `/categories/${selectedCategory.id}` : '/categories'}
+                    method={selectedCategory ? 'PUT' : 'POST'}
+                    onSave={handleSave}
+                />
+            </CardContent>
+
+        </Card>
+
     );
 }
