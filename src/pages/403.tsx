@@ -1,11 +1,9 @@
 import Link from 'next/link';
-import Image from 'next/image'; // Import the Image component
-import AppLayoutClient from '@/layouts/app-layout-client';
+import Image from 'next/image';
 import "@/app/globals.css";
 
 export default function ForbiddenPage() {
   return (
-    <AppLayoutClient>
       <div className="min-h-screen flex items-center justify-center bg-white p-4">
         <div className="container max-w-6xl flex flex-col md:flex-row items-center justify-between">
         {/* Left side with title and text */}
@@ -17,7 +15,7 @@ export default function ForbiddenPage() {
               này. Hãy kiểm tra lại hoặc liên hệ quản trị viên.
             </p>
             <Link
-              href="/"
+              href="/auth/login"
               className="inline-block bg-[oklch(0.86_0.18_88.9)] hover:bg-[oklch(0.86_0.18_78.9)] text-black px-8 py-3 rounded-md font-medium transition duration-300"
             >
               Quay về
@@ -38,6 +36,5 @@ export default function ForbiddenPage() {
           </div>
         </div>
       </div>
-    </AppLayoutClient>
   );
 }

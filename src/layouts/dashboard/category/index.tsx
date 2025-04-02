@@ -35,12 +35,12 @@ export default function CategoriesPage() {
 
     const fetchCategories = async () => {
         try {
-            // setLoading(true);
-            // const response = await apiFetch('/categories');
-            // const sortedCategories = response.data.sort((a: Category, b: Category) =>
-            //     sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
-            // );
-            // setCategories(sortedCategories);
+            setLoading(true);
+            const response = await apiFetch('/categories');
+            const sortedCategories = response.data.sort((a: Category, b: Category) =>
+                sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
+            );
+            setCategories(sortedCategories);
         } catch (error) {
             console.error('Error fetching categories:', error);
         } finally {
