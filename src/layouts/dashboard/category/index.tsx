@@ -93,7 +93,7 @@ export default function CategoriesPage() {
                <CardTitle className="flex items-center justify-between">
                     List Category
                     <Button onClick={openCreateModal} variant={"secondary"}>
-                        New
+                        Tạo mới
                     </Button>
                 </CardTitle>
             </CardHeader>

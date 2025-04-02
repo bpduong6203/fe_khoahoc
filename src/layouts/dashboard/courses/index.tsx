@@ -143,7 +143,7 @@ export default function CoursesPage() {
     ];
 
     return (
-        <Card>
+        <Card className='m-1'>
             <CardHeader>
                 <CardTitle className="flex items-center justify-between">
                     Danh sách khóa học

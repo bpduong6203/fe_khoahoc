@@ -43,12 +43,12 @@ const mainNavItems: NavItem[] = [
 const footerNavItems: NavItem[] = [
     {
         title: 'Repository',
-        url: 'https://github.com/laravel/react-starter-kit',
+        url: '#',
         icon: Folder,
     },
     {
-        title: 'Documentation',
-        url: 'https://laravel.com/docs/starter-kits',
+        title: 'Khoá học',
+        url: '/',
         icon: BookOpen,
     },
 ];
