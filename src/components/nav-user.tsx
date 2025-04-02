@@ -5,22 +5,25 @@ import { UserInfo } from '@/components/user-info';
 import { UserMenuContent } from '@/components/user-menu-content';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { ChevronsUpDown } from 'lucide-react';
-import { Auth } from '@/types';
+import { useRouter } from 'next/router';
+import { Auth, User } from '@/types';
 
 export function NavUser() {
-    const [auth, setAuth] = useState<Auth>({ user: { id: 0, name: '', email: '', avatar: '', email_verified_at: null, created_at: '', updated_at: '' } });
+    const [auth, setAuth] = useState<Auth>({
+        user: { id: 0, name: '', email: '', avatar: null, email_verified_at: null, created_at: '', updated_at: '' },
+    });
     const { state } = useSidebar();
     const isMobile = useIsMobile();
+    const router = useRouter();
+
 
     useEffect(() => {
-        const fetchAuth = async () => {
-            const res = await fetch('/api/auth');
-            const data = await res.json();
-            setAuth(data);
-        };
-
-        fetchAuth();
-    }, []);
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const userData: User = JSON.parse(storedUser);
+            setAuth({ user: userData });
+        }
+    }, [router]);
 
     return (
         <SidebarMenu>

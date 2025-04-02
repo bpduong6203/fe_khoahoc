@@ -48,16 +48,10 @@ interface AppHeaderProps {
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const router = useRouter();
-   const [auth, setAuth] = useState<Auth>({
-       user: { id: 0, name: '', email: '', avatar: null, email_verified_at: null, created_at: '', updated_at: '' },
-     });
+    const [auth, setAuth] = useState<Auth>({ user: { id: 0, name: '', email: '', avatar: '', email_verified_at: null, created_at: '', updated_at: '' } });
+    
     useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          const userData: User = JSON.parse(storedUser);
-          setAuth({ user: userData });
-        }
-      }, [router]);
+    }, []);
 
     const getInitials = (name: string) => {
         return name.split(' ').map(n => n[0]).join('');
@@ -198,4 +192,3 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
         </>
     );
 }
-
