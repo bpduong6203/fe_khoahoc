@@ -88,7 +88,7 @@ export default function CategoriesPage() {
     ];
 
     return (
-        <Card>
+        <Card className='m-1'>
             <CardHeader>
                <CardTitle className="flex items-center justify-between">
                     List Category

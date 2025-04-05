@@ -15,7 +15,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Users',
-        url: '/uses',
+        url: '/dashboard/users',
         icon: UserCheck,
     },
     {

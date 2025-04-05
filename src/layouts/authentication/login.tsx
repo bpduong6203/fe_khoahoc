@@ -5,6 +5,7 @@ import Heading from "@/components/heading";
 import { useState } from "react";
 import "@/app/globals.css";
 import Link from "next/link";
+import Head from "next/head";
 
 const Login = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -15,7 +16,13 @@ const Login = () => {
   };
 
   return (
+
     <div className="min-h-screen flex items-center justify-center relative bg-gray-100">
+      <Head>
+        <title>
+          Login
+        </title>
+      </Head>
       <VideoBackground />
       <div className="w-full p-5 h-full flex items-center justify-center">
         <div className="w-full max-w-md py-8 px-10 flex flex-col justify-center backdrop-filter backdrop-blur-md bg-white/80 rounded-lg shadow-lg">

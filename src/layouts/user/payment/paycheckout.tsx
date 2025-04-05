@@ -17,7 +17,7 @@ const PayCheckout = () => {
   return (
     <div className="flex flex-col min-h-screen bg-neutral-100 dark:bg-neutral-800">
       <Head>
-        <title>Thanh Toán | WEB LUA GA</title>
+        <title>Thanh Toán</title>
       </Head>
       
       <SimpleNavbar />
