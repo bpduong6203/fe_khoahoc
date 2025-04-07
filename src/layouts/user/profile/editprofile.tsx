@@ -1,202 +1,264 @@
-import React from "react";
-import Navbar from "@/layouts/user/homepage/Navbar";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import CourseSlider from "./components/CourseSlider";
+import FeaturedCourse from "./components/FeaturedCourse";
+import AllCoursesSection from "./components/AllCoursesSection";
+
+interface Course {
+  title: string;
+  author: string;
+  price: string;
+  originalPrice: string;
+  rating: number;
+  participants: string;
+  image: string;
+  isBestseller?: boolean;
+}
+
+interface DetailedCourse {
+  id: string;
+  title: string;
+  subtitle: string;
+  author: string;
+  price: string;
+  originalPrice: string;
+  rating: number;
+  reviews: number;
+  duration: string;
+  level: string;
+  image: string;
+  isBestseller?: boolean;
+  isHot?: boolean;
+}
+
+interface FeaturedCourseData {
+  title: string;
+  author: string;
+  description: string;
+  image: string;
+  price: string;
+  originalPrice: string;
+  rating: number;
+  reviews: number;
+  updated: string;
+  duration: string;
+  lectures: number;
+  level: string;
+  isHot?: boolean;
+}
+
+// Dữ liệu giả lập cho các khóa học
+const coursesData: Record<string, Course[]> = {
+  "Web Development": [
+    {
+      title: "HTML and CSS for Beginners – Build a Website & Launch ONLINE",
+      author: "Edwin Diaz | 9,000+ Students, Coding Faculty...",
+      price: "đ309,000",
+      originalPrice: "đ419,000",
+      rating: 4.5,
+      participants: "37,074",
+      image: "https://img.upanh.tv/2025/03/14/html-css-course.jpg",
+      isBestseller: true,
+    },
+    {
+      title: "Build Responsive Real-World Websites with HTML and CSS",
+      author: "Jonas Schmedtmann",
+      price: "đ379,000",
+      originalPrice: "đ449,000",
+      rating: 4.7,
+      participants: "112,873",
+      image: "https://img.upanh.tv/2025/03/14/responsive-html-css.jpg",
+    },
+    {
+      title: "HTML, JavaScript, & Bootstrap - Certification Course",
+      author: "YouAccel Training",
+      price: "đ299,000",
+      originalPrice: "đ399,000",
+      rating: 4.4,
+      participants: "5,600",
+      image: "https://img.upanh.tv/2025/03/14/html-js-bootstrap.jpg",
+    },
+    {
+      title: "Practical Web Design & Development: 7 Courses in 1",
+      author: "Creative Online School",
+      price: "đ299,000",
+      originalPrice: "đ399,000",
+      rating: 4.3,
+      participants: "2,632",
+      image: "https://img.upanh.tv/2025/03/14/practical-web-design.jpg",
+    },
+  ],
+  "Mobile Development": [
+    // Thêm dữ liệu cho các danh mục khác nếu cần
+  ],
+};
+
+// Dữ liệu giả lập cho khóa học nổi bật
+const featuredCourseData: Record<string, FeaturedCourseData> = {
+  "Web Development": {
+    title: "ASP.NET Core đi sâu vào .NET 9",
+    author: "Bùi Đức Lưu",
+    description:
+      "Khóa học ASP.NET Core từ uỷ viên các bài tập và dự án thực tế.",
+    image: "https://img.upanh.tv/2025/03/14/aspnet-core.jpg",
+    price: "đ279,000",
+    originalPrice: "đ449,000",
+    rating: 4.9,
+    reviews: 17,
+    updated: "3 năm 2025",
+    duration: "32.5 giờ",
+    lectures: 228,
+    level: "Tất cả cấp độ",
+    isHot: true,
+  },
+};
+
+// Dữ liệu chi tiết cho trang All Courses
+const allCoursesData: Record<string, DetailedCourse[]> = {
+  "Web Development": [
+    {
+      id: "js-course-1",
+      title: "Khóa học nhập môn toàn diện JavaScript, React",
+      subtitle: "Trở thành nhà phát triển web Full-Stack với một khóa học: HTML, CSS, Javascript, Node, React, MongoDB, Web3 và DApps",
+      author: "Dr. Angela Yu",
+      price: "đ309,000",
+      originalPrice: "đ1,799,000",
+      rating: 4.7,
+      reviews: 155059,
+      duration: "65 giờ",
+      level: "Tất cả các cấp độ",
+      image: "/api/placeholder/240/135",
+      isBestseller: true
+    },
+    {
+      id: "web-course-1",
+      title: "Trại huấn luyện phát triển web 2025",
+      subtitle: "Trở thành nhà phát triển Full-Stack với một khóa học - HTML, CSS, Javascript, React, Node, MongoDB và nhiều hơn nữa",
+      author: "Colt Steele",
+      price: "đ429,000",
+      originalPrice: "đ1,999,000",
+      rating: 4.8,
+      reviews: 239201,
+      duration: "74 giờ",
+      level: "Tất cả các cấp độ",
+      image: "/api/placeholder/240/135"
+    },
+    {
+      id: "js-course-2",
+      title: "Khóa học JavaScript từ đầu đến 2025: Từ con số 0 đến chuyên gia",
+      subtitle: "Khóa học JavaScript đặt cơ sở cho mọi thứ bạn làm với JavaScript: dự án, framework, thư viện",
+      author: "Jonas Schmedtmann",
+      price: "đ319,000",
+      originalPrice: "đ1,699,000",
+      rating: 4.7,
+      reviews: 165298,
+      duration: "40.5 giờ",
+      level: "Tất cả các cấp độ",
+      image: "/api/placeholder/240/135"
+    },
+    {
+      id: "angular-course",
+      title: "Angular - Hướng dẫn đầy đủ (Phiên bản 2025)",
+      subtitle: "Làm chủ Angular từ cơ bản đến chuyên sâu và xây dựng một ứng dụng Angular từ A-Z",
+      author: "Maximilian Schwarzmüller",
+      price: "đ409,000",
+      originalPrice: "đ1,499,000",
+      rating: 4.6,
+      reviews: 179757,
+      duration: "36.5 giờ",
+      level: "Tất cả các cấp độ",
+      image: "/api/placeholder/240/135",
+      isHot: true
+    },
+    {
+      id: "html-css-course",
+      title: "Xây dựng các trang web thực tiễn đẹp với HTML và CSS",
+      subtitle: "Học HTML, CSS và thiết kế web từ đầu bằng cách xây dựng nhiều trang web tuyệt đẹp, responsive từ đâu dùng HTML5 và CSS3",
+      author: "Jonas Schmedtmann",
+      price: "đ379,000",
+      originalPrice: "đ1,499,000",
+      rating: 4.7,
+      reviews: 185177,
+      duration: "38 giờ",
+      level: "Tất cả các cấp độ",
+      image: "/api/placeholder/240/135"
+    }
+  ]
+};
 
 const EditProfile = () => {
+  const router = useRouter();
+  const { category } = router.query;
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [featuredCourse, setFeaturedCourse] =
+    useState<FeaturedCourseData | null>(null);
+  const [detailedCourses, setDetailedCourses] = useState<DetailedCourse[]>([]);
+  const [activeTab, setActiveTab] = useState("Phổ biến nhất");
+
+  useEffect(() => {
+    if (category && typeof category === "string") {
+      const relatedCourses = coursesData[category] || [];
+      const featured = featuredCourseData[category] || null;
+      const allCourses = allCoursesData[category] || [];
+      setCourses(relatedCourses);
+      setFeaturedCourse(featured);
+      setDetailedCourses(allCourses);
+    }
+  }, [category]);
+
   return (
-    <div className="flex flex-col min-h-screen bg-neutral-100 dark:bg-neutral-800">
-      <div className="flex flex-col md:flex-row min-h-screen">
-        {/* Sidebar */}
-        <div className="w-full md:w-1/7 p-6 border-r bg-white dark:bg-neutral-700 dark:border-neutral-600 shrink-0 relative z-0">
-          <div className="flex items-center gap-2 mb-6 text-purple-700 dark:text-purple-400 font-medium cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
+    <div className="px-6 py-12 max-w-6xl mx-auto">
+      {/* Các khóa học phổ biến */}
+      <div className="mb-12">
+        <h1 className="text-3xl font-bold text-gray-800">
+          Các khóa học phát triển web
+        </h1>
+        <p className="text-gray-600 mt-2">
+          Khám phá các khóa học từ các chuyên gia giàu kinh nghiệm thực tế.
+        </p>
+        <div className="flex space-x-4 mt-4">
+          {["Phổ biến nhất", "Mới", "Xu hướng"].map((tab) => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={`text-sm font-medium ${
+                activeTab === tab
+                  ? "text-gray-800 border-b-2 border-gray-800"
+                  : "text-gray-500"
+              } pb-2`}
             >
-              <path d="M12 20h9"></path>
-              <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
-            </svg>
-            <span>Edit profile</span>
-          </div>
-
-          <div className="flex items-center gap-2 mb-6 text-gray-500 dark:text-gray-300 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
-              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
-            </svg>
-            <span>Notification</span>
-          </div>
-
-          <div className="flex items-center gap-2 mb-6 text-gray-500 dark:text-gray-300 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-            <span>Security</span>
-          </div>
-
-          <div className="flex items-center gap-2 mb-6 text-gray-500 dark:text-gray-300 cursor-pointer">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="12" cy="12" r="3"></circle>
-              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-            </svg>
-            <span>Appearance</span>
-          </div>
+              {tab}
+            </button>
+          ))}
         </div>
+        {courses.length > 0 ? (
+          <CourseSlider courses={courses} />
+        ) : (
+          <p>Không có khóa học nào cho danh mục này.</p>
+        )}
+      </div>
 
-        {/* Main Content */}
-        <div className="flex-1 p-4 text-gray-900 dark:text-gray-100">
-          <div className="relative">
-            {/* Purple Banner */}
-            <div
-              className="rounded-lg w-full overflow-hidden"
-              style={{
-                background: "linear-gradient(45deg, #9333ea, #c026d3)",
-                height: "clamp(150px, 30vh, 250px)",
-                position: "relative"
-              }}
-            >
-              <div className="absolute inset-0">
-                <svg viewBox="0 0 800 200" xmlns="http://www.w3.org/2000/svg" opacity="0.25">
-                  <path
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="3"
-                    d="M0,50 C150,100 350,0 500,50 C650,100 700,50 800,70 L800,200 L0,200 Z"
-                  />
-                  <path
-                    fill="none"
-                    stroke="white"
-                    strokeWidth="3"
-                    d="M0,30 C150,80 350,10 500,40 C650,80 700,30 800,50 L800,200 L0,200 Z"
-                  />
-                </svg>
-              </div>
-            </div>
-
-            {/* User Card */}
-            <div className="absolute left-0 right-0 mx-auto top-[clamp(100px,22vh,200px)] w-full max-w-5xl">
-              <div className="bg-gray-50 dark:bg-neutral-700 rounded-lg p-4 border border-gray-300 dark:border-gray-600 shadow-lg">
-                <div className="flex items-center gap-3">
-                  <img
-                    src="https://img.upanh.tv/2025/03/14/avata-dep-nam-2.jpg"
-                    alt="User"
-                    className="w-12 h-12"
-                  />
-                  <div>
-                    <h3 className="font-medium">Esthera Jackson</h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">esthera@simmmple.com</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Khóa học nổi bật */}
+      <div className="mb-16">
+        <h1 className="text-3xl font-bold text-gray-800">Khóa học nổi bật</h1>
+        <p className="text-gray-600 mt-2">
+          Nhiều học viên thích khóa học được đánh giá cao này vì độ ứng dụng của nó.
+        </p>
+        {featuredCourse ? (
+          <div className="mt-6">
+            <FeaturedCourse {...featuredCourse} />
           </div>
+        ) : (
+          <p>Không có khóa học nổi bật cho danh mục này.</p>
+        )}
+      </div>
 
-          {/* Spacer */}
-          <div className="h-16 md:h-20"></div>
-
-          {/* Edit Profile Form */}
-          <div className="bg-gray-50 dark:bg-neutral-700 rounded-lg p-4 md:p-6 mt-0 border border-gray-300 dark:border-gray-600 shadow-lg w-full max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold mb-6">Edit profile</h2>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">First Name</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
-                  defaultValue="Lê"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">Email</label>
-                <input
-                  type="email"
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
-                  defaultValue="Mehrabbozorgi.business@gmail.com"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">Last Name</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
-                  defaultValue="thanh trúc"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">Address</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
-                  defaultValue="33062 Zboncak Isle"
-                />
-              </div>
-
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">City</label>
-                <select className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 appearance-none bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100">
-                  <option>Mehrab</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-gray-700 dark:text-gray-300 mb-2">Contact Number</label>
-                <input
-                  type="text"
-                  className="w-full border border-gray-300 dark:border-gray-600 rounded p-2 bg-white dark:bg-neutral-600 text-gray-900 dark:text-gray-100"
-                  defaultValue="58077.79"
-                />
-              </div>
-            </div>
-
-            <div className="flex justify-end mt-6 gap-2">
-              <button className="px-6 py-2 border border-purple-500 text-purple-500 dark:text-purple-400 dark:border-purple-400 rounded">
-                Cancel
-              </button>
-              <button className="px-6 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded">Save</button>
-            </div>
-          </div>
-        </div>
+      {/* Phần All Courses Section */}
+      <div className="mt-16 border-t pt-12">
+        <AllCoursesSection 
+          courses={detailedCourses}
+          categoryName="Phát triển Web"
+        />
       </div>
     </div>
   );

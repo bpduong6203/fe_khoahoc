@@ -1,8 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/router"; // Thêm useRouter từ next/router
 
 const Categories = () => {
   const [showSubMenu, setShowSubMenu] = useState<string | null>(null);
   const subMenuTimeoutRef = useRef<number | null>(null);
+  const router = useRouter(); // Khởi tạo router
 
   useEffect(() => {
     return () => {
@@ -36,9 +38,18 @@ const Categories = () => {
     }, 200);
   };
 
+  // Hàm xử lý khi nhấp vào mục con
+  const handleSubMenuClick = (subItem: string) => {
+    // Điều hướng đến trang editprofile và truyền subItem qua query
+    router.push({
+      pathname: "/profile/editprofile",
+      query: { category: subItem }, // Truyền subItem (ví dụ: "Web Development") qua query
+    });
+  };
+
   return (
     <div className="relative px-4 py-4">
-      <div className="flex flex-wrap justify-center space-x-4 py-4 border-b  dark:border-neutral-700"> 
+      <div className="flex flex-wrap justify-center space-x-4 py-4 border-b dark:border-neutral-700">
         {[
           "Phát triển",
           "Việc kinh doanh",
@@ -57,10 +68,7 @@ const Categories = () => {
             onMouseEnter={() => handleSubMenuEnter(category)}
             onMouseLeave={handleSubMenuLeave}
           >
-            <a
-              href="#"
-              className="text-sm hover:underline cursor-pointer"
-            >
+            <a href="#" className="text-sm hover:underline cursor-pointer">
               {category}
             </a>
             {showSubMenu === category && subMenus[category] && (
@@ -81,6 +89,7 @@ const Categories = () => {
                     <li
                       key={subIndex}
                       className="hover:block hover:rounded-sm px-4 py-2 text-sm dark:hover:bg-neutral-800 hover:bg-neutral-200 cursor-pointer"
+                      onClick={() => handleSubMenuClick(subItem)} // Thêm sự kiện onClick
                     >
                       {subItem}
                     </li>
