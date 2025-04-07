@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import Link from 'next/link';
-import { BookOpen, ClipboardList, Folder, Layers, LayoutGrid, Receipt, ReceiptText, Shield, Tags, UserCheck } from 'lucide-react';
+import { BookAIcon, BookOpen, ClipboardList, Folder, Layers, LayoutGrid, Receipt, ReceiptText, Shield, Tags, UserCheck } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -19,11 +19,6 @@ const mainNavItems: NavItem[] = [
         icon: UserCheck,
     },
     {
-        title: 'Roles',
-        url: '/roles',
-        icon: Shield,
-    },
-    {
         title: 'Category',
         url: '/dashboard/category',
         icon: Tags,
@@ -34,8 +29,13 @@ const mainNavItems: NavItem[] = [
         icon: ClipboardList,
     },
     {
+        title: 'Lessons',
+        url: '/dashboard/lessons',
+        icon: Layers,
+    },
+    {
         title: 'Billing',
-        url: '/dashboard/courses',
+        url: '/dashboard/billing',
         icon: ReceiptText,
     },
 ];
