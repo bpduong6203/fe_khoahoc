@@ -23,6 +23,8 @@ interface Field {
     options?: { value: string; label: string }[];
 }
 
+
+
 export default function CategoriesPage() {
     const [categories, setCategories] = useState<Category[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
@@ -72,10 +74,22 @@ export default function CategoriesPage() {
         setModalOpen(false);
     };
 
+
+    const categoryOptions = categories.map((category) => ({
+        value: category.id,
+        label: category.name,
+    }));
+
     const categoryFields: Field[] = [
         { name: 'name', label: 'Tên', type: 'text', required: true },
         { name: 'description', label: 'Mô tả', type: 'textarea' },
-        { name: 'parent_id', label: 'Parent ID', type: 'text' },
+        {
+            name: "parent_id",
+            label: "Danh mục cha",
+            type: "select",
+            options: categoryOptions,
+            placeholder: "Chọn danh mục",
+        },
         {
             name: 'status',
             label: 'Trạng thái',
