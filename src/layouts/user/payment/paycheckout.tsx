@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Head from "next/head";
-import SimpleNavbar from "@/layouts/homepage/SimpleNavbar"; // Đảm bảo import đúng
+import SimpleNavbar from "@/layouts/user/homepage/SimpleNavbar"; // Đảm bảo import đúng
 
 const PayCheckout = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -17,7 +17,7 @@ const PayCheckout = () => {
   return (
     <div className="flex flex-col min-h-screen bg-neutral-100 dark:bg-neutral-800">
       <Head>
-        <title>Thanh Toán | WEB LUA GA</title>
+        <title>Thanh Toán</title>
       </Head>
       
       <SimpleNavbar />

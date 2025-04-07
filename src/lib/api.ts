@@ -1,45 +1,74 @@
-interface User {
-  id: number;
-  name: string;
-  avatar: string | null;
-  email: string;
-  email_verified_at: string | null;
-  created_at: string;
-  updated_at: string;
-}
+import axios, { AxiosRequestConfig, AxiosError } from 'axios';
+import { LoginResponse, LoginError } from '@/types/auth';
 
-interface LoginResponse {
-  message: string;
-  token: string;
-  user: User;
-}
-
-interface LoginError {
-  message: string;
-}
-
-const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
-
-export async function apiFetch<T = any>(
-  endpoint: string,
-  options: RequestInit = {}
-): Promise<T> {
-  const token = localStorage.getItem("token");
-  const url = `${baseUrl}${endpoint}`;
-
-  const response = await fetch(url, {
-    ...options,
+const api = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
     headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...(options.headers || {}),
+        'Content-Type': 'application/json',
     },
-  });
+});
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Lỗi không xác định") as LoginError;
-  }
+// Hàm dùng cho API cần token
+export async function apiFetch<T = any>(
+    endpoint: string,
+    options: AxiosRequestConfig = {}
+): Promise<T> {
+    const token = localStorage.getItem('token');
 
-  return response.json() as Promise<T>;
+    try {
+        const response = await api.request<T>({
+            url: endpoint,
+            ...options,
+            headers: {
+                ...(token ? { Authorization: `Bearer ${token}` } : {}),
+                ...(options.headers || {}),
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        const axiosError = error as AxiosError<LoginError>;
+
+        if (axiosError.response?.status === 403) {
+            if (typeof window !== 'undefined') {
+                window.location.href = '/403';
+            }
+            throw new Error('Bạn không có quyền truy cập');
+        }
+
+        throw new Error(
+            axiosError.response?.data?.message || 'Lỗi không xác định'
+        ) as LoginError;
+    }
+}
+
+// Hàm dùng cho API không cần token
+export async function fetchApiNoToken<T = any>(
+    endpoint: string,
+    options: AxiosRequestConfig = {}
+): Promise<T> {
+    try {
+        const response = await api.request<T>({
+            url: endpoint,
+            ...options,
+            headers: {
+                ...(options.headers || {}), 
+            },
+        });
+
+        return response.data;
+    } catch (error) {
+        const axiosError = error as AxiosError<LoginError>;
+
+        if (axiosError.response?.status === 403) {
+            if (typeof window !== 'undefined') {
+                window.location.href = '/403';
+            }
+            throw new Error('Bạn không có quyền truy cập');
+        }
+
+        throw new Error(
+            axiosError.response?.data?.message || 'Lỗi không xác định'
+        ) as LoginError;
+    }
 }

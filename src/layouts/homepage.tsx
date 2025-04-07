@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState } from "react";
-import Navbar from "@/layouts/homepage/Navbar";
-import Categories from "@/layouts/homepage/Categories";
-import Banner from "@/layouts/homepage/Banner";
-import RecommendedCourses from "@/layouts/homepage/RecommendedCourses";
-import TopicsSection from "@/layouts/homepage/TopicsSection";
-import FeaturedCourses from "@/layouts/homepage/FeaturedCourses";
+import Navbar from "@/layouts/user/homepage/Navbar";
+import Categories from "@/layouts/user/homepage/Categories";
+import Banner from "@/layouts/user/homepage/Banner";
+import RecommendedCourses from "@/layouts/user/homepage/RecommendedCourses";
+import TopicsSection from "@/layouts/user/homepage/TopicsSection";
+import FeaturedCourses from "@/layouts/user/homepage/FeaturedCourses";
 import "@/app/globals.css";
 import AppLayoutClient from "@/layouts/app-layout-client"; 
 
