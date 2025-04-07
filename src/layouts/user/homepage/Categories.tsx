@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useRouter } from "next/router";
 import { fetchApiNoToken } from "@/lib/api";
+
 interface Category {
   id: string;
   name: string;
@@ -15,7 +15,6 @@ const Categories = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const subMenuTimeoutRef = useRef<number | null>(null);
-  const router = useRouter(); // Khởi tạo router
 
   // Lấy dữ liệu từ API khi component mount
   useEffect(() => {
@@ -61,18 +60,8 @@ const Categories = () => {
     }, 200);
   };
 
-
-  // Hàm xử lý khi nhấp vào mục con
-  const handleSubMenuClick = (subItem: string) => {
-    // Điều hướng đến trang editprofile và truyền subItem qua query
-    router.push({
-      pathname: "/profile/editprofile",
-      query: { category: subItem }, // Truyền subItem (ví dụ: "Web Development") qua query
-    });
-  };
   if (loading) return <div>Đang tải danh mục...</div>;
   if (error) return <div>Lỗi: {error}</div>;
-
 
   return (
     <div className="relative px-4 py-4">
@@ -91,19 +80,6 @@ const Categories = () => {
                 onMouseEnter={() => handleSubMenuEnter(category.id)}
                 onMouseLeave={handleSubMenuLeave}
               >
-
-                <ul className="py-1 px-1">
-                  {subMenus[category]?.map((subItem, subIndex) => (
-                    <li
-                      key={subIndex}
-                      className="hover:block hover:rounded-sm px-4 py-2 text-sm dark:hover:bg-neutral-800 hover:bg-neutral-200 cursor-pointer"
-                      onClick={() => handleSubMenuClick(subItem)} // Thêm sự kiện onClick
-                    >
-                      {subItem}
-                    </li>
-                  ))}
-                </ul>
-
                 <a href="#" className="text-sm hover:underline cursor-pointer">
                   {category.name}
                 </a>
