@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import Heading from "@/components/heading";
 import { type User } from "@/types";
+import Head from "next/head";
 
 
 interface ProfileData extends User {
@@ -97,6 +98,10 @@ export default function EditProfile() {
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6 rounded-lg shadow-md">
+      <Head>
+        <title>Chỉnh sửa thông tin cá nhân</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Heading title="Chỉnh sửa thông tin cá nhân" />
 
       {/* Phần Alert */}

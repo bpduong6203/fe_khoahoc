@@ -24,6 +24,7 @@
     "@radix-ui/react-tooltip": "^1.1.8",
     "axios": "^1.8.4",
     "class-variance-authority": "^0.7.1",
+    "lottie-react": "^2.4.1",
     "lucide-react": "^0.479.0",
     "my-nextjs-app": "file:",
     "next": "15.2.1",

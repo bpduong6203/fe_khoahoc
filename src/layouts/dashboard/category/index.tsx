@@ -3,7 +3,8 @@ import { apiFetch } from '@/lib/api';
 import GenericModal from '@/components/generic-modal';
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 
 interface Category {
@@ -114,7 +115,11 @@ export default function CategoriesPage() {
 
             <CardContent>
                 {loading ? (
-                    <p className="text-center">Đang tải...</p>
+                    <div>
+                        <Skeleton className="h-10 w-full mb-2" />
+                        <Skeleton className="h-10 w-full mb-2" />
+                        <Skeleton className="h-10 w-full mb-2" />
+                    </div>
                 ) : (
                     <div className="overflow-x-auto rounded-sm">
                         <table className="min-w-full bg-neutral-50 border rounded-2xl shadow">

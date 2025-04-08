@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { apiFetch } from '@/lib/api';
 import { User, LoginError } from '@/types/auth';
+import dynamic from "next/dynamic";
+const LoadingSpinner = dynamic(() => import("@/components/loading-spinner"), { ssr: false });
 
 export default function Callback() {
     const router = useRouter();
@@ -52,11 +54,8 @@ export default function Callback() {
         <div className="min-h-screen flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded-lg shadow-lg text-center w-full max-w-md">
                 {loading ? (
-                    <div className="space-y-4">
-                        <p className="text-gray-700 text-lg font-semibold">Đang đăng nhập...</p>
-                        <div className="w-3/4 mx-auto h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div className="h-full bg-blue-500 animate-slide"></div>
-                        </div>
+                    <div className="flex items-center justify-center">
+                        <LoadingSpinner variant={3} />
                     </div>
                 ) : error ? (
                     <p className="text-red-500">

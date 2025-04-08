@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { apiFetch } from '@/lib/api';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Payment {
     id: string | number;
@@ -107,7 +108,11 @@ export default function PaymentsPage() {
 
             <CardContent>
                 {loading ? (
-                    <p className="text-center">Đang tải...</p>
+                    <div>
+                        <Skeleton className="h-10 w-full mb-2" />
+                        <Skeleton className="h-10 w-full mb-2" />
+                        <Skeleton className="h-10 w-full mb-2" />
+                    </div>
                 ) : payments.length === 0 ? (
                     <p className="text-center">Không có thanh toán nào</p>
                 ) : (

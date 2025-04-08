@@ -4,6 +4,7 @@ import { Badge, badgeVariants } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { Skeleton } from "@/components/ui/skeleton"; 
 
 interface Role {
     id: string;
@@ -79,7 +80,11 @@ export default function UsersPage() {
 
             <CardContent>
                 {loading ? (
-                    <p className="text-center">Đang tải...</p>
+                    <div>
+                        <Skeleton className="h-10 w-full mb-2" />
+                        <Skeleton className="h-10 w-full mb-2" />
+                        <Skeleton className="h-10 w-full mb-2" />
+                    </div>
                 ) : (
                     <div className="overflow-x-auto rounded-sm">
                         <table className="min-w-full bg-neutral-50 border rounded-2xl shadow">
