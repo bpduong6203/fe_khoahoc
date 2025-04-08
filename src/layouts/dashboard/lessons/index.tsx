@@ -4,33 +4,8 @@ import GenericModal from '@/components/generic-modal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Lesson, Course, Field } from '@/types/interfaces';
 
-interface Lesson {
-    id: string;
-    course_id: string;
-    title: string;
-    description?: string;
-    content?: string;
-    video_url?: string;
-    duration?: number;
-    order_number: number;
-    status: 'Draft' | 'Published' | 'Archived';
-}
-
-interface Course {
-    id: string;
-    title: string;
-}
-
-interface Field {
-    name: string;
-    label: string;
-    type?: 'text' | 'textarea' | 'select' | 'number';
-    placeholder?: string;
-    required?: boolean;
-    inline?: boolean;
-    options?: { value: string; label: string }[];
-}
 
 export default function LessonsPage() {
     const [lessons, setLessons] = useState<Lesson[]>([]);

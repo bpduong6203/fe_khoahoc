@@ -5,25 +5,7 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-
-
-interface Category {
-    id: string;
-    name: string;
-    description?: string;
-    parent_id?: string;
-    status: 'Active' | 'Inactive';
-}
-
-interface Field {
-    name: string;
-    label: string;
-    type?: 'text' | 'textarea' | 'select' | 'number';
-    placeholder?: string;
-    required?: boolean;
-    options?: { value: string; label: string }[];
-}
-
+import { Category, Field } from '@/types/interfaces';
 
 
 export default function CategoriesPage() {

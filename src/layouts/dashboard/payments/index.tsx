@@ -3,28 +3,7 @@ import { apiFetch } from '@/lib/api';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-
-interface Payment {
-    id: string | number;
-    invoice_code: string | null;
-    enrollment_id: string;
-    user_id: string;
-    amount: string;
-    payment_method: string;
-    status: 'Pending' | 'Completed' | 'Failed' | 'Refunded';
-    transaction_id?: string | null;
-    created_at: string;
-    updated_at: string;
-    enrollment?: {
-        id: string;
-        course_id: string;
-        price: string;
-    };
-    user?: {
-        id: string;
-        name: string;
-    };
-}
+import { Payment } from '@/types/interfaces';
 
 export default function PaymentsPage() {
     const [payments, setPayments] = useState<Payment[]>([]);

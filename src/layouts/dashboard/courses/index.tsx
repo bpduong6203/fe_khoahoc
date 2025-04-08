@@ -5,36 +5,8 @@ import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Course, Category, Field } from '@/types/interfaces';
 
-interface Course {
-    id: string;
-    title: string;
-    description?: string;
-    category_id?: string;
-    price: number;
-    discount_price?: number;
-    duration?: number;
-    level?: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
-    status: 'Draft' | 'Published' | 'Archived';
-}
-
-interface Category {
-    id: string;
-    name: string;
-    description?: string | null;
-    parent_id?: string | null;
-    status: 'Active' | 'Inactive';
-}
-
-interface Field {
-    name: string;
-    label: string;
-    type?: 'text' | 'textarea' | 'select' | 'number';
-    placeholder?: string;
-    required?: boolean;
-    inline?: boolean;
-    options?: { value: string; label: string }[];
-}
 
 export default function CoursesPage() {
     const [courses, setCourses] = useState<Course[]>([]);
