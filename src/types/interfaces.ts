@@ -25,6 +25,9 @@ export interface Course {
     price: number;
     discount_price?: number;
     duration?: number;
+    user_name?: string;
+    thumbnail_url: string | null;
+    rating: number;
     level?: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
     status: 'Draft' | 'Published' | 'Archived';
 }
