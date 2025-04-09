@@ -32,6 +32,30 @@ export interface Course {
     status: 'Draft' | 'Published' | 'Archived';
 }
 
+
+export interface CourseDetailData {
+    id: string;
+    title: string;
+    description: string | null;
+    category_id: string;
+    user_id: string;
+    price: string;
+    discount_price: string | null;
+    thumbnail_url: string | null;
+    duration: number;
+    requirements: string | null;
+    objectives: string | null;
+    rating: string;
+    enrollment_count: number;
+    created_at: string;
+    category: { id: string; name: string } | null;
+    level?: 'Beginner' | 'Intermediate' | 'Advanced' | 'All Levels';
+    status: 'Draft' | 'Published' | 'Archived';
+    user: { id: string; name: string } | null;
+    lessons: Lesson[];
+  }
+  
+
 export interface Lesson {
     id: string;
     course_id: string;
