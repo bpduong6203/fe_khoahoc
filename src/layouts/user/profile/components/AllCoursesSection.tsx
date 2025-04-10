@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 interface Course {
   id: string;
@@ -180,7 +181,7 @@ const AllCoursesSection: React.FC<AllCoursesSectionProps> = ({
               {currentCourses.map((course, index) => (
                 <Card key={index} className="flex flex-col md:flex-row mb-3 rounded-xl border border-gray-200 shadow-none hover:shadow transition">
                   <div className="w-full md:w-1/4">
-                    <img
+                    <Image
                       src={course.image}
                       alt={course.title}
                       className="w-full h-24 object-cover rounded-l-xl"

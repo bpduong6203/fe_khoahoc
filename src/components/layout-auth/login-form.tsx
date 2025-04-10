@@ -52,10 +52,6 @@ const LoginForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) 
     }
   };
 
-  const handleRegisterClick = () => {
-    router.push("/auth/register"); // Chuyển hướng đến trang đăng ký
-  };
-
   return (
     <form className="space-y-6" onSubmit={handleSubmit}>
       {error && <InputError message={error} />}

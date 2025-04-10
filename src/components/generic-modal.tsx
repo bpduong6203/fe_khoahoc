@@ -24,30 +24,31 @@ interface Field {
   inline?: boolean;
 }
 
-interface GenericModalProps {
+// Dùng generic type T để linh hoạt với formData
+interface GenericModalProps<T extends Record<string, string | number>> {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  initialData?: Record<string, any>;
+  initialData?: T;
   fields: Field[];
   apiEndpoint: string;
   method?: "POST" | "PUT" | "PATCH";
   onSave: () => void;
 }
 
-const GenericModal: React.FC<GenericModalProps> = ({
+const GenericModal = <T extends Record<string, string | number>>({
   isOpen,
   onClose,
   title,
-  initialData = {},
+  initialData = {} as T,
   fields,
   apiEndpoint,
   method = "POST",
   onSave,
-}) => {
-  const [formData, setFormData] = React.useState<Record<string, any>>(initialData);
+}: GenericModalProps<T>) => {
+  const [formData, setFormData] = React.useState<T>(initialData);
   const [error, setError] = React.useState<string | null>(null);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false); // Thêm trạng thái loading
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     setFormData(initialData);
@@ -65,9 +66,9 @@ const GenericModal: React.FC<GenericModalProps> = ({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (isLoading) return; // Ngăn submit nếu đang loading
+    if (isLoading) return;
 
-    setIsLoading(true); // Bật loading
+    setIsLoading(true);
     setError(null);
 
     try {
@@ -76,10 +77,11 @@ const GenericModal: React.FC<GenericModalProps> = ({
         data: formData,
       });
       onSave();
-    } catch (err: any) {
-      setError(err.message || "Có lỗi xảy ra");
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "Có lỗi xảy ra";
+      setError(errorMessage);
     } finally {
-      setIsLoading(false); // Tắt loading sau khi hoàn tất
+      setIsLoading(false);
     }
   };
 
@@ -95,7 +97,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
           <CardContent className="space-y-4">
             {isLoading ? (
               <div className="flex justify-center">
-                <LoadingSpinner variant={3} /> 
+                <LoadingSpinner variant={3} />
               </div>
             ) : (
               <div className="flex flex-wrap gap-4 justify-between">
@@ -118,7 +120,8 @@ const GenericModal: React.FC<GenericModalProps> = ({
                     ) : field.type === "select" ? (
                       <Select
                         onValueChange={handleSelectChange(field.name)}
-                        defaultValue={formData[field.name] || ""}
+                        defaultValue={String(formData[field.name] || "")}
+
                         disabled={isLoading}
                       >
                         <SelectTrigger id={field.name}>
@@ -141,7 +144,7 @@ const GenericModal: React.FC<GenericModalProps> = ({
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.required}
-                        disabled={isLoading} 
+                        disabled={isLoading}
                       />
                     )}
                   </div>

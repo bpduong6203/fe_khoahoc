@@ -1,5 +1,4 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
-import { Icon } from '@/components/icon';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -7,15 +6,13 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuList, navigationMenuT
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
-import { useInitials } from '@/hooks/use-initials';
 import { cn } from '@/lib/utils';
-import { type BreadcrumbItem, type NavItem, type SharedData } from '@/types';
+import { type BreadcrumbItem, type NavItem } from '@/types';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
-import { use } from 'react';
 import { useEffect, useState } from 'react';
 import { Auth } from '@/types';
 
@@ -48,9 +45,19 @@ interface AppHeaderProps {
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     const router = useRouter();
-    const [auth, setAuth] = useState<Auth>({ user: { id: 0, name: '', email: '', avatar: '', email_verified_at: null, created_at: '', updated_at: '' } });
-    
+    const [auth, setAuth] = useState<Auth>({
+        user: { id: 0, name: '', email: '', avatar: '', email_verified_at: null, created_at: '', updated_at: '' },
+    });
+
+    // Tải thông tin người dùng từ localStorage hoặc API khi component mount
     useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            setAuth({ user: JSON.parse(storedUser) });
+        } else {
+            // Giả lập gọi API nếu không có dữ liệu trong localStorage
+            // Ví dụ: fetchUserData().then(data => setAuth(data));
+        }
     }, []);
 
     const getInitials = (name: string) => {

@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosError } from 'axios';
-import { LoginResponse, LoginError } from '@/types/auth';
+import { LoginError } from '@/types/auth';
 
 const api = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
@@ -9,7 +9,7 @@ const api = axios.create({
 });
 
 // Hàm dùng cho API cần token
-export async function apiFetch<T = any>(
+export async function apiFetch<T = unknown>(
     endpoint: string,
     options: AxiosRequestConfig = {}
 ): Promise<T> {
@@ -43,7 +43,7 @@ export async function apiFetch<T = any>(
 }
 
 // Hàm dùng cho API không cần token
-export async function fetchApiNoToken<T = any>(
+export async function fetchApiNoToken<T = unknown>(
     endpoint: string,
     options: AxiosRequestConfig = {}
 ): Promise<T> {

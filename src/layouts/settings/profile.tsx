@@ -50,7 +50,25 @@ export default function EditProfile() {
   const handleSave = async () => {
     setIsLoading(true);
     setAlert({ show: false, type: 'default', title: '', description: '' });
-    // Logic xử lý API (đã comment trong code gốc)
+    try {
+      // Logic xử lý API (giả lập hoặc thay bằng API thật)
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Giả lập delay
+      setAlert({
+        show: true,
+        type: 'default',
+        title: 'Thành công',
+        description: 'Thông tin đã được lưu.',
+      });
+    } catch { // Thay 'error' bằng '_' vì không dùng
+      setAlert({
+        show: true,
+        type: 'destructive',
+        title: 'Lỗi',
+        description: 'Không thể lưu thông tin. Vui lòng thử lại.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -106,6 +124,7 @@ export default function EditProfile() {
             value={profileData.name}
             onChange={(e) => handleInputChange("name", e.target.value)}
             placeholder="Nhập tên của bạn"
+            disabled={isLoading} // Vô hiệu hóa khi đang tải
           />
         </div>
         <div>
@@ -116,6 +135,7 @@ export default function EditProfile() {
             value={profileData.email}
             onChange={(e) => handleInputChange("email", e.target.value)}
             placeholder="Nhập email của bạn"
+            disabled={isLoading} // Vô hiệu hóa khi đang tải
           />
         </div>
         <div>
@@ -126,12 +146,18 @@ export default function EditProfile() {
             value={profileData.address || ""}
             onChange={(e) => handleInputChange("address", e.target.value)}
             placeholder="Nhập địa chỉ của bạn"
+            disabled={isLoading} // Vô hiệu hóa khi đang tải
           />
         </div>
       </form>
       <div className="flex justify-end">
-        <Button variant="default" size="lg" onClick={handleSave}>
-          Lưu thông tin
+        <Button
+          variant="default"
+          size="lg"
+          onClick={handleSave}
+          disabled={isLoading} // Vô hiệu hóa nút khi đang tải
+        >
+          {isLoading ? "Đang lưu..." : "Lưu thông tin"}
         </Button>
       </div>
     </div>

@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import InputError from '@/components/input-error';
 import { apiFetch } from '@/lib/api';
-import { RegisterResponse, LoginError, User } from '@/types/auth';
+import { RegisterResponse, LoginError } from '@/types/auth';
 
 const RegisterForm = ({ onSubmit }: { onSubmit?: (email: string, password: string) => void }) => {
   const [email, setEmail] = useState<string>('');

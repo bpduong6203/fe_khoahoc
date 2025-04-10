@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { apiFetch } from '@/lib/api';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, } from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Payment } from '@/types/interfaces';
@@ -10,11 +10,8 @@ export default function PaymentsPage() {
     const [loading, setLoading] = useState<boolean>(true);
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 
-    useEffect(() => {
-        fetchPayments();
-    }, []);
-
-    const fetchPayments = async () => {
+    // Wrap fetchPayments trong useCallback
+    const fetchPayments = useCallback(async () => {
         try {
             setLoading(true);
             const response = await apiFetch<{
@@ -36,7 +33,11 @@ export default function PaymentsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [sortOrder]); // sortOrder là dependency vì ảnh hưởng đến sắp xếp
+
+    useEffect(() => {
+        fetchPayments();
+    }, [fetchPayments]); // Thêm fetchPayments vào dependency array
 
     const toggleSortOrder = () => {
         const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
@@ -71,13 +72,6 @@ export default function PaymentsPage() {
             alert('Failed to update payment status');
         }
     };
-
-    const statusOptions = [
-        { value: 'Pending', label: 'Chờ xử lý' },
-        { value: 'Completed', label: 'Hoàn tất' },
-        { value: 'Failed', label: 'Thất bại' },
-        { value: 'Refunded', label: 'Đã hoàn tiền' },
-    ];
 
     return (
         <Card className='m-1'>

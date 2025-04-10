@@ -2,14 +2,11 @@ import VideoBackground from "@/components/layout-auth/video-background";
 import LoginForm from "@/components/layout-auth/login-form";
 import SocialLoginButtons from "@/components/layout-auth/social-login-buttons";
 import Heading from "@/components/heading";
-import { useState } from "react";
 import "@/app/globals.css";
 import Link from "next/link";
 import Head from "next/head";
 
 const Login = () => {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-
   const handleLogin = (email: string, password: string) => {
     console.log("Email:", email);
     console.log("Password:", password);

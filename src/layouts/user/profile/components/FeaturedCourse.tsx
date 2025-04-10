@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 
 interface FeaturedCourseProps {
   title: string;
@@ -42,7 +43,7 @@ const FeaturedCourse: React.FC<FeaturedCourseProps> = ({
   return (
     <Card className="flex flex-col md:flex-row shadow-sm hover:shadow-md transition-shadow">
       <div className="md:w-1/3 w-full h-48 md:h-auto">
-        <img
+        <Image
           src={image}
           alt={title}
           className="w-full h-full object-cover rounded-t-md md:rounded-l-lg md:rounded-t-none"

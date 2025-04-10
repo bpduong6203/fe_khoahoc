@@ -85,6 +85,8 @@ const Banner = () => {
                   src={slide.imageUrl}
                   alt="Illustration"
                   className="w-full h-auto"
+                  width={300}
+                  height={300}
                 />
               </div>
             </div>

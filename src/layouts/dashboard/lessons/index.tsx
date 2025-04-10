@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { apiFetch } from '@/lib/api';
 import GenericModal from '@/components/generic-modal';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Lesson, Course, Field } from '@/types/interfaces';
-
 
 export default function LessonsPage() {
     const [lessons, setLessons] = useState<Lesson[]>([]);
@@ -15,12 +14,8 @@ export default function LessonsPage() {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedLesson, setSelectedLesson] = useState<Lesson | null>(null);
 
-    useEffect(() => {
-        fetchLessons();
-        fetchCourses();
-    }, []);
-
-    const fetchLessons = async () => {
+    // Wrap fetchLessons trong useCallback
+    const fetchLessons = useCallback(async () => {
         try {
             setLoading(true);
             const response = await apiFetch<{ lessons: Lesson[] }>('/lessons');
@@ -35,16 +30,22 @@ export default function LessonsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [sortOrder]); // sortOrder là dependency vì ảnh hưởng đến sắp xếp
 
-    const fetchCourses = async () => {
+    // Wrap fetchCourses trong useCallback
+    const fetchCourses = useCallback(async () => {
         try {
             const response = await apiFetch<{ data: Course[] }>('/courses');
             setCourses(response.data);
         } catch (error) {
             console.error('Error fetching courses:', error);
         }
-    };
+    }, []); // Không có dependency vì không phụ thuộc biến nào
+
+    useEffect(() => {
+        fetchLessons();
+        fetchCourses();
+    }, [fetchLessons, fetchCourses]); // Thêm cả hai hàm vào dependency array
 
     const toggleSortOrder = () => {
         const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
@@ -87,9 +88,9 @@ export default function LessonsPage() {
         { name: "title", label: "Tiêu đề", type: "text", required: true },
         { name: "description", label: "Mô tả", type: "textarea", required: true },
         { name: "content", label: "Nội dung", type: "textarea", required: true },
-        { name: "video_url", label: "URL Video", type: "text", placeholder: "https://example.com/video" ,inline: true, required: true},
-        { name: "duration", label: "Thời lượng (phút)", type: "number", required: true , inline: true},
-        { name: "order_number", label: "Thứ tự", type: "number", required: true , inline: true},
+        { name: "video_url", label: "URL Video", type: "text", placeholder: "https://example.com/video", inline: true, required: true },
+        { name: "duration", label: "Thời lượng (phút)", type: "number", required: true, inline: true },
+        { name: "order_number", label: "Thứ tự", type: "number", required: true, inline: true },
         {
             name: "status",
             label: "Trạng thái",
@@ -99,7 +100,8 @@ export default function LessonsPage() {
                 { value: "Published", label: "Đã xuất bản" },
                 { value: "Archived", label: "Đã lưu trữ" },
             ],
-            inline: true, required: true
+            inline: true,
+            required: true
         },
     ];
 

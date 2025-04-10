@@ -1,5 +1,5 @@
 import React from "react";
-import { FaSearch, FaBell, FaShoppingCart, FaUserCircle } from "react-icons/fa";
+import { FaBell, FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useRouter } from "next/router";
 import { Input } from "@/components/ui/input";
 import {

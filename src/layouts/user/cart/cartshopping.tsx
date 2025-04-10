@@ -59,7 +59,19 @@ const Cart = () => {
     try {
       setIsPaymentLoading(true); // Bật loading khi bắt đầu gửi request
 
-      const response = await apiFetch("/payments/create", {
+      interface Payment {
+        id: string; 
+        status: string; 
+        amount?: number; 
+        transaction_id?: string; 
+      }
+
+      interface PaymentResponse {
+        qr_code?: string;
+        payment?: Payment;
+      }
+
+      const response: PaymentResponse = await apiFetch("/payments/create", {
         method: "POST",
         data: JSON.stringify({
           enrollment_id: enrollmentId,
@@ -69,7 +81,7 @@ const Cart = () => {
 
 
       if (paymentMethod === "Bank") {
-        setQrCode(response.qr_code);
+        setQrCode(response.qr_code || null);
         setIsQRModalOpen(true);
         setTimeLeft(300);
         setCartItems([]);

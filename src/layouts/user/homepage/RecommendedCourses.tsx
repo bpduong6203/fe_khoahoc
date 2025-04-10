@@ -28,7 +28,7 @@ const RecommendedCourses: React.FC = () => {
     const fetchCategoriesWithCourses = async () => {
       try {
         setLoading(true);
-        const response = await apiFetch('/categories-course');
+        const response: { data: Category[] } = await apiFetch('/categories-course');
         const categories: Category[] = response.data;
 
         const categoryMap: { [key: string]: Course[] } = {};
@@ -125,7 +125,7 @@ const RecommendedCourses: React.FC = () => {
                     </CardHeader>
                     <CardContent className="flex-grow">
                       <img
-                        src={course.thumbnail_url || "https://via.placeholder.com/150"}
+                        src={course.thumbnail_url || ""}
                         alt={course.title}
                         className="w-full h-40 object-cover rounded-md"
                       />

@@ -19,10 +19,10 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ isOpen, onClo
     setIsLoading(true);
     setError("");
     try {
-      // Giả lập gửi email và nhận mã xác nhận (thay bằng API call thực tế)
+      // Giả lập gửi email (thay bằng API call thực tế)
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      setStep(2); // Chuyển sang bước nhập mã
-    } catch (err) {
+      setStep(2);
+    } catch {
       setError("Không thể gửi mã xác nhận. Vui lòng thử lại!");
     } finally {
       setIsLoading(false);
@@ -36,12 +36,12 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ isOpen, onClo
     try {
       // Giả lập xác nhận mã (thay bằng API call thực tế)
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (code === "7789BM6X") { // Giả lập mã xác nhận
-        setStep(3); // Chuyển sang bước đặt lại mật khẩu
+      if (code === "7789BM6X") {
+        setStep(3);
       } else {
         setError("Mã xác nhận không đúng!");
       }
-    } catch (err) {
+    } catch {
       setError("Có lỗi xảy ra khi xác nhận mã!");
     } finally {
       setIsLoading(false);
@@ -60,8 +60,8 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ isOpen, onClo
         return;
       }
       alert("Mật khẩu đã được đặt lại thành công!");
-      onClose(); // Đóng modal sau khi thành công
-    } catch (err) {
+      onClose();
+    } catch {
       setError("Có lỗi xảy ra khi đặt lại mật khẩu!");
     } finally {
       setIsLoading(false);
@@ -72,10 +72,9 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ isOpen, onClo
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      {/* Nền mờ nhưng vẫn thấy nội dung phía sau */}
       <div
         className="absolute inset-0 backdrop-filter backdrop-blur-sm bg-black/30"
-        onClick={onClose} // Đóng modal khi nhấn ra ngoài
+        onClick={onClose}
       />
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md z-10">
         {step === 1 && (
@@ -102,7 +101,9 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ isOpen, onClo
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md ${isLoading ? "opacity-50" : "hover:bg-blue-700"}`}
+                className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                }`}
               >
                 {isLoading ? "Đang gửi..." : "Gửi"}
               </button>
@@ -138,7 +139,9 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ isOpen, onClo
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md ${isLoading ? "opacity-50" : "hover:bg-blue-700"}`}
+                className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                }`}
               >
                 {isLoading ? "Đang xác nhận..." : "Xác nhận"}
               </button>
@@ -186,7 +189,9 @@ const ForgotPasswordModal: React.FC<ForgotPasswordModalProps> = ({ isOpen, onClo
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md ${isLoading ? "opacity-50" : "hover:bg-blue-700"}`}
+                className={`w-full bg-blue-600 text-white py-2 px-4 rounded-md ${
+                  isLoading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-700"
+                }`}
               >
                 {isLoading ? "Đang đặt lại..." : "Đặt mật khẩu"}
               </button>

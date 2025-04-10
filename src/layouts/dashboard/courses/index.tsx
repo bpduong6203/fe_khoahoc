@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { apiFetch } from '@/lib/api';
 import GenericModal from '@/components/generic-modal';
-import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Course, Category, Field } from '@/types/interfaces';
 
@@ -24,7 +23,7 @@ export default function CoursesPage() {
     const fetchCourses = async () => {
         try {
             setLoading(true);
-            const response = await apiFetch('/courses');
+            const response: { data: Course[] } = await apiFetch('/courses');
             const sortedCourses = response.data.sort((a: Course, b: Course) =>
                 sortOrder === 'asc'
                     ? a.title.localeCompare(b.title)
@@ -40,7 +39,7 @@ export default function CoursesPage() {
 
     const fetchCategories = async () => {
         try {
-            const response = await apiFetch('/categories');
+            const response: { data: Category[] } = await apiFetch('/categories');
             setCategories(response.data);
         } catch (error) {
             console.error('Error fetching categories:', error);

@@ -1,9 +1,8 @@
 import * as React from "react";
 import { apiFetch } from '@/lib/api';
-import { Badge, badgeVariants } from '@/components/ui/badge'; 
+import { Badge } from '@/components/ui/badge'; 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton"; 
 
 interface Role {
@@ -23,18 +22,15 @@ export default function UsersPage() {
     const [loading, setLoading] = React.useState<boolean>(true);
     const [sortOrder, setSortOrder] = React.useState<'asc' | 'desc'>('asc');
 
-    React.useEffect(() => {
-        fetchUsers();
-    }, []);
-
-    const fetchUsers = async () => {
+    // Wrap fetchUsers trong useCallback
+    const fetchUsers = React.useCallback(async () => {
         try {
             setLoading(true);
-            const response = await apiFetch('/users');
+            const response: { data: User[] } = await apiFetch('/users');
             const sortedUsers = response.data.sort((a: User, b: User) =>
                 sortOrder === 'asc'
                     ? a.name.localeCompare(b.name)
-                    : b.name.localeCompare(a.name) 
+                    : b.name.localeCompare(a.name)
             );
             setUsers(sortedUsers);
         } catch (error) {
@@ -42,7 +38,11 @@ export default function UsersPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [sortOrder]); // sortOrder là dependency vì ảnh hưởng đến sắp xếp
+
+    React.useEffect(() => {
+        fetchUsers();
+    }, [fetchUsers]); // Thêm fetchUsers vào dependency array
 
     const toggleSortOrder = () => {
         const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';

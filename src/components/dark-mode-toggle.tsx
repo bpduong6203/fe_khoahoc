@@ -1,7 +1,6 @@
 'use client';
 import { Moon, Sun } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
-import { FaSun, FaMoon } from 'react-icons/fa';
 
 const DarkModeToggle = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);

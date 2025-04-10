@@ -9,7 +9,6 @@ import { NavigationMenu, NavigationMenuList } from '@/components/ui/navigation-m
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { UserMenuContent } from '@/components/user-menu-content';
-import { cn } from '@/lib/utils';
 import { type BreadcrumbItem, type NavItem, type Auth, type User } from '@/types';
 import { Bell, Menu, ShoppingBag } from 'lucide-react';
 import AppLogo from './app-logo';

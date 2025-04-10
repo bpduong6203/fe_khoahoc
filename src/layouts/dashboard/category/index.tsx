@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { apiFetch } from '@/lib/api';
 import GenericModal from '@/components/generic-modal';
-import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Category, Field } from '@/types/interfaces';
-
 
 export default function CategoriesPage() {
     const [categories, setCategories] = useState<Category[]>([]);
@@ -15,14 +13,10 @@ export default function CategoriesPage() {
     const [modalOpen, setModalOpen] = useState<boolean>(false);
     const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
 
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    const fetchCategories = async () => {
+    const fetchCategories = useCallback(async () => {
         try {
             setLoading(true);
-            const response = await apiFetch('/categories');
+            const response: { data: Category[] } = await apiFetch('/categories');
             const sortedCategories = response.data.sort((a: Category, b: Category) =>
                 sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name)
             );
@@ -32,7 +26,11 @@ export default function CategoriesPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [sortOrder]); 
+
+    useEffect(() => {
+        fetchCategories();
+    }, [fetchCategories]); 
 
     const toggleSortOrder = () => {
         const newSortOrder = sortOrder === 'asc' ? 'desc' : 'asc';
@@ -56,7 +54,6 @@ export default function CategoriesPage() {
         fetchCategories();
         setModalOpen(false);
     };
-
 
     const categoryOptions = categories.map((category) => ({
         value: category.id,
@@ -87,7 +84,7 @@ export default function CategoriesPage() {
     return (
         <Card className='m-1'>
             <CardHeader>
-               <CardTitle className="flex items-center justify-between">
+                <CardTitle className="flex items-center justify-between">
                     List Category
                     <Button onClick={openCreateModal} variant={"secondary"}>
                         Tạo mới
@@ -156,8 +153,6 @@ export default function CategoriesPage() {
                     onSave={handleSave}
                 />
             </CardContent>
-
         </Card>
-
     );
 }

@@ -6,9 +6,7 @@ import { type NavItem } from '@/types';
 import Link from 'next/link';
 import { type PropsWithChildren } from 'react';
 import { useRouter } from "next/router";
-import appLayoutClient from '../app-layout-client';
 import '../../app/globals.css';
-import App from 'next/app';
 import AppLayoutClient from '../app-layout-client';
 
 const sidebarNavItems: NavItem[] = [
