@@ -27,7 +27,7 @@
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.479.0",
     "my-nextjs-app": "file:",
-    "next": "15.2.1",
+    "next": "15.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
