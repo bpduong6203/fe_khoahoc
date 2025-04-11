@@ -55,7 +55,7 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 space-y-6 rounded-lg shadow-md">
+    <div className="md:max-w-2xl max-w-md mx-auto p-6 space-y-6 rounded-lg shadow-md">
       <Heading title={step === "enterEmail" ? "Đặt lại mật khẩu" : "Tạo mật khẩu mới"} description="Nhập email của bạn để đặt lại mật khẩu." />
 
       {/* Hiển thị thông báo (Alert) */}

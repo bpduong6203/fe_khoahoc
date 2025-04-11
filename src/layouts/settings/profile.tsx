@@ -80,7 +80,7 @@ export default function EditProfile() {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6 space-y-6 rounded-lg shadow-md">
+    <div className="md:max-w-2xl max-w-2xl mx-auto p-6 space-y-6 rounded-lg shadow-md">
       <Head>
         <title>Chỉnh sửa thông tin cá nhân</title>
         <link rel="icon" href="/favicon.ico" />
