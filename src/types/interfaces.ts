@@ -2,7 +2,7 @@
 export interface Field {
     name: string;
     label: string;
-    type?: 'text' | 'textarea' | 'select' | 'number';
+    type?: 'text' | 'textarea' | 'select' | 'number' | "file";
     placeholder?: string;
     required?: boolean;
     inline?: boolean;

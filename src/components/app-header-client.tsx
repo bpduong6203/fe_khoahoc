@@ -36,7 +36,7 @@ interface AppHeaderProps {
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
   const router = useRouter();
   const [auth, setAuth] = useState<Auth>({
-    user: { id: 0, name: '', email: '', avatar: null, email_verified_at: null, created_at: '', updated_at: '' },
+    user: { id: '', name: '', email: '', avatar: null, email_verified_at: null, created_at: '', updated_at: '' },
   });
 
   useEffect(() => {
@@ -52,7 +52,13 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
     return name.split(' ').map(n => n[0]).join('').toUpperCase();
   };
 
-  const isAuthenticated = auth.user.id !== 0; 
+  const isAuthenticated = auth.user.id !== '';
+
+  // Base URL cho CDN từ biến môi trường
+  const baseUrl = process.env.NEXT_PUBLIC_IMG_URL || 'http://127.0.0.1:8000';
+
+  // Ảnh mặc định khi avatar là null
+  const defaultAvatar = '/images/default-avatar.png'; // Đường dẫn trong public/
 
   return (
     <>
@@ -149,7 +155,14 @@ export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="size-10 rounded-full p-1">
                     <Avatar className="size-8 overflow-hidden rounded-full">
-                      <AvatarImage src={auth.user.avatar || ''} alt={auth.user.name || 'User'} />
+                      <AvatarImage
+                        src={
+                          auth.user.avatar
+                            ? `${baseUrl}${auth.user.avatar}`
+                            : defaultAvatar
+                        }
+                        alt={auth.user.name || 'User'}
+                      />
                       <AvatarFallback className="rounded-lg bg-neutral-200 text-black dark:bg-neutral-700 dark:text-white">
                         {getInitials(auth.user.name)}
                       </AvatarFallback>

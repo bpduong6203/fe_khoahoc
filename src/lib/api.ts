@@ -8,6 +8,13 @@ const api = axios.create({
     },
 });
 
+const apis = axios.create({
+    baseURL: process.env.NEXT_PUBLIC_IMG_URL,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
+
 // Hàm dùng cho API cần token
 export async function apiFetch<T = unknown>(
     endpoint: string,
@@ -72,3 +79,27 @@ export async function fetchApiNoToken<T = unknown>(
         ) as LoginError;
     }
 }
+
+// Hàm chuyên để upload file (form-data)
+export async function uploadFile(file: File): Promise<{ url: string }> {
+    const formData = new FormData();
+    formData.append('image', file);
+  
+    const token = localStorage.getItem('token');
+  
+    try {
+      const response = await apis.post<{ url: string }>('/cdn/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        },
+      });
+  
+      return response.data;
+    } catch (error) {
+      const axiosError = error as AxiosError<LoginError>;
+      throw new Error(
+        axiosError.response?.data?.message || 'Lỗi khi upload ảnh'
+      );
+    }
+  }

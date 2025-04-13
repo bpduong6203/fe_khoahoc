@@ -7,9 +7,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { apiFetch } from "@/lib/api";
 import LoadingSpinner from "@/components/loading-spinner";
+import { X } from "lucide-react"; 
 
 interface CartItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   enrollmentId?: string;
@@ -21,10 +22,13 @@ const Cart = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
   const [isQRModalOpen, setIsQRModalOpen] = useState<boolean>(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState<boolean>(false);
+  const [itemToCancel, setItemToCancel] = useState<CartItem | null>(null);
   const [qrCode, setQrCode] = useState<string | null>(null);
-  const [timeLeft, setTimeLeft] = useState<number>(300); // 5 phút = 300 giây
+  const [timeLeft, setTimeLeft] = useState<number>(300);
   const [paymentMethod, setPaymentMethod] = useState<"Bank" | "Cash" | null>(null);
-  const [isPaymentLoading, setIsPaymentLoading] = useState<boolean>(false); // Thêm trạng thái loading cho thanh toán
+  const [isPaymentLoading, setIsPaymentLoading] = useState<boolean>(false);
+  const [isCancelling, setIsCancelling] = useState<boolean>(false);
 
   useEffect(() => {
     const storedCart = JSON.parse(localStorage.getItem("cartItems") || "[]");
@@ -57,7 +61,7 @@ const Cart = () => {
     const enrollmentId = cartItems[0].enrollmentId;
 
     try {
-      setIsPaymentLoading(true); // Bật loading khi bắt đầu gửi request
+      setIsPaymentLoading(true);
 
       interface Payment {
         id: string; 
@@ -79,7 +83,6 @@ const Cart = () => {
         }),
       });
 
-
       if (paymentMethod === "Bank") {
         setQrCode(response.qr_code || null);
         setIsQRModalOpen(true);
@@ -96,8 +99,36 @@ const Cart = () => {
     } catch (error) {
       console.error("Error creating payment:", error);
     } finally {
-      setIsPaymentLoading(false); // Tắt loading sau khi hoàn tất (dù thành công hay lỗi)
-      setIsPaymentModalOpen(false); // Đóng modal chọn phương thức
+      setIsPaymentLoading(false);
+      setIsPaymentModalOpen(false);
+    }
+  };
+
+  const handleOpenCancelDialog = (item: CartItem) => {
+    setItemToCancel(item);
+    setIsCancelModalOpen(true);
+  };
+
+  const handleCancelEnrollment = async () => {
+    if (!itemToCancel || !itemToCancel.enrollmentId) return;
+    
+    try {
+      setIsCancelling(true);
+      
+      await apiFetch(`/enrollments/${itemToCancel.enrollmentId}/cancel`, {
+        method: "POST",
+      });
+      
+      const updatedCart = cartItems.filter(item => item.id !== itemToCancel.id);
+      localStorage.setItem("cartItems", JSON.stringify(updatedCart));
+      setCartItems(updatedCart);
+      
+      setIsCancelModalOpen(false);
+      setItemToCancel(null);
+    } catch (error) {
+      console.error("Error cancelling enrollment:", error);
+    } finally {
+      setIsCancelling(false);
     }
   };
 
@@ -162,9 +193,19 @@ const Cart = () => {
                       className="flex justify-between items-center p-4 border border-gray-300 rounded-lg bg-gray-100 shadow-sm"
                     >
                       <span className="font-medium text-gray-800">{item.name}</span>
-                      <span className="font-medium text-blue-600">
-                        {item.price.toLocaleString("vi-VN", { minimumFractionDigits: 0 })} ₫
-                      </span>
+                      <div className="flex items-center gap-4">
+                        <span className="font-medium text-blue-600">
+                          {item.price.toLocaleString("vi-VN", { minimumFractionDigits: 0 })} ₫
+                        </span>
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="text-red-500 border-red-500 hover:bg-red-50"
+                          onClick={() => handleOpenCancelDialog(item)}
+                        >
+                          <X className="h-4 w-4 mr-1" /> Hủy
+                        </Button>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -201,7 +242,7 @@ const Cart = () => {
                   <DialogContent>
                     {isPaymentLoading ? (
                       <div className="flex items-center justify-center py-6">
-                        <LoadingSpinner variant={1} /> {/* Hiển thị LoadingSpinner */}
+                        <LoadingSpinner variant={1} />
                       </div>
                     ) : (
                       <>
@@ -269,6 +310,37 @@ const Cart = () => {
               Đóng
             </Button>
           </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Modal xác nhận hủy đăng ký */}
+      <Dialog open={isCancelModalOpen} onOpenChange={setIsCancelModalOpen}>
+        <DialogContent>
+          {isCancelling ? (
+            <div className="flex items-center justify-center py-6">
+              <LoadingSpinner variant={1} />
+            </div>
+          ) : (
+            <>
+              <DialogHeader>
+                <DialogTitle>Xác nhận hủy đăng ký</DialogTitle>
+                <DialogDescription>
+                  Bạn có chắc chắn muốn hủy đăng ký khóa học "{itemToCancel?.name}" không?
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter className="mt-6">
+                <Button variant="outline" onClick={() => setIsCancelModalOpen(false)}>
+                  Không
+                </Button>
+                <Button 
+                  variant="destructive" 
+                  onClick={handleCancelEnrollment}
+                >
+                  Xác nhận hủy
+                </Button>
+              </DialogFooter>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>

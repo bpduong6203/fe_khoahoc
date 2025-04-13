@@ -89,13 +89,7 @@ export default function CoursesPage() {
         { name: "price", label: "Giá", type: "number", required: true, inline: true },
         { name: "discount_price", label: "Giá giảm", type: "number", inline: true },
         { name: "duration", label: "Thời lượng (phút)", type: "number", inline: true  },
-        {
-            name: "thumbnail_url",
-            label: "",
-            type: "file", 
-            accept: "image/*",
-            inline: true,
-          },
+        { name: "image", label: "Tải ảnh lên", type: "file", inline: true },
         {
             name: "level",
             label: "Cấp độ",

@@ -21,8 +21,8 @@ const sidebarNavItems: NavItem[] = [
         icon: null,
     },
     {
-        title: 'Appearance',
-        url: '#',
+        title: 'My courese',
+        url: '/settings/mycourses',
         icon: null,
     },
 ];
