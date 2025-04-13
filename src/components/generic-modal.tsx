@@ -1,21 +1,20 @@
-import * as React from "react";
-import { apiFetch } from "@/lib/api";
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
+import * as React from 'react';
+import { apiFetch } from '@/lib/api';
+import { Button } from './ui/button';
+import { Label } from './ui/label';
+import { Input } from './ui/input';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "./ui/select";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "./ui/card";
-import InputError from "./input-error";
-import LoadingSpinner from "./loading-spinner";
-import { Field } from "@/types/interfaces";
+} from './ui/select';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
+import InputError from './input-error';
+import LoadingSpinner from './loading-spinner';
+import { Field } from '@/types/interfaces';
 
-// Dùng generic type T để linh hoạt với formData
 interface GenericModalProps<T extends Record<string, any>> {
   isOpen: boolean;
   onClose: () => void;
@@ -23,8 +22,8 @@ interface GenericModalProps<T extends Record<string, any>> {
   initialData?: T;
   fields: Field[];
   apiEndpoint: string;
-  method?: "POST" | "PUT" | "PATCH";
-  onSave: () => void;
+  method?: 'POST' | 'PUT' | 'PATCH';
+  onSave: (data: T & { file?: File | null }) => Promise<void>; // Sửa chữ ký
 }
 
 const GenericModal = <T extends Record<string, any>>({
@@ -34,17 +33,19 @@ const GenericModal = <T extends Record<string, any>>({
   initialData = {} as T,
   fields,
   apiEndpoint,
-  method = "POST",
+  method = 'POST',
   onSave,
 }: GenericModalProps<T>) => {
   const [formData, setFormData] = React.useState<T>(initialData);
-  const [fileData, setFileData] = React.useState<File | null>(null); // Quản lý file ảnh
-  const [previewURL, setPreviewURL] = React.useState<string | null>(null); // URL preview ảnh
+  const [fileData, setFileData] = React.useState<File | null>(null);
+  const [previewURL, setPreviewURL] = React.useState<string | null>(null);
   const [error, setError] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     setFormData(initialData);
+    setFileData(null);
+    setPreviewURL(null);
   }, [initialData]);
 
   const handleChange = (
@@ -56,8 +57,16 @@ const GenericModal = <T extends Record<string, any>>({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      if (!['image/jpeg', 'image/png', 'image/gif'].includes(file.type)) {
+        setError('Chỉ hỗ trợ JPEG, PNG, hoặc GIF');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        setError('Ảnh phải nhỏ hơn 5MB');
+        return;
+      }
       setFileData(file);
-      setPreviewURL(URL.createObjectURL(file)); // Hiển thị preview
+      setPreviewURL(URL.createObjectURL(file));
     }
   };
 
@@ -73,21 +82,15 @@ const GenericModal = <T extends Record<string, any>>({
     setError(null);
 
     try {
-      const form = new FormData();
-      for (const key in formData) {
-        form.append(key, formData[key]);
+      await onSave({ ...formData, file: fileData }); // Truyền formData và file
+      setFormData(initialData);
+      setFileData(null);
+      if (previewURL) {
+        URL.revokeObjectURL(previewURL);
+        setPreviewURL(null);
       }
-      if (fileData) {
-        form.append("file", fileData); // Thêm file vào FormData
-      }
-
-      await apiFetch(apiEndpoint, {
-        method,
-        data: form, // Gửi FormData (bao gồm cả file)
-      });
-      onSave();
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Có lỗi xảy ra";
+      const errorMessage = err instanceof Error ? err.message : 'Có lỗi xảy ra';
       setError(errorMessage);
     } finally {
       setIsLoading(false);
@@ -113,27 +116,27 @@ const GenericModal = <T extends Record<string, any>>({
                 {fields.map((field) => (
                   <div
                     key={field.name}
-                    className={`space-y-1 ${field.inline ? "w-45" : "w-full"}`}
+                    className={`space-y-1 ${field.inline ? 'w-45' : 'w-full'}`}
                   >
                     <Label htmlFor={field.name}>{field.label}</Label>
-                    {field.type === "textarea" ? (
+                    {field.type === 'textarea' ? (
                       <textarea
                         id={field.name}
                         name={field.name}
-                        value={formData[field.name] || ""}
+                        value={formData[field.name] || ''}
                         onChange={handleChange}
                         className="mt-1 block w-full border rounded-md p-2"
                         placeholder={field.placeholder}
                         disabled={isLoading}
                       />
-                    ) : field.type === "select" ? (
+                    ) : field.type === 'select' ? (
                       <Select
                         onValueChange={handleSelectChange(field.name)}
-                        defaultValue={String(formData[field.name] || "")}
+                        defaultValue={String(formData[field.name] || '')}
                         disabled={isLoading}
                       >
                         <SelectTrigger id={field.name}>
-                          <SelectValue placeholder={field.placeholder || "Chọn..."} />
+                          <SelectValue placeholder={field.placeholder || 'Chọn...'} />
                         </SelectTrigger>
                         <SelectContent>
                           {field.options?.map((option) => (
@@ -143,31 +146,37 @@ const GenericModal = <T extends Record<string, any>>({
                           ))}
                         </SelectContent>
                       </Select>
-                    ) : field.type === "file" ? (
+                    ) : field.type === 'file' ? (
                       <>
                         <Input
                           id={field.name}
                           type="file"
                           name={field.name}
+                          accept="image/jpeg,image/png,image/gif" // Hỗ trợ GIF
                           onChange={handleFileChange}
                           placeholder={field.placeholder}
                           disabled={isLoading}
                         />
-                        {previewURL && (
+                        {(previewURL || (field.name === 'image' && formData[field.name])) && (
                           <img
-                            src={previewURL}
+                            src={
+                              previewURL ||
+                              (formData[field.name]
+                                ? `${process.env.NEXT_PUBLIC_IMG_URL}${formData[field.name]}`
+                                : '/images/default-course.png')
+                            }
                             alt="Preview"
                             className="mt-2 rounded border"
-                            style={{ width: "100%", maxHeight: "150px", objectFit: "cover" }}
+                            style={{ width: '100%', maxHeight: '150px', objectFit: 'cover' }}
                           />
                         )}
                       </>
                     ) : (
                       <Input
                         id={field.name}
-                        type={field.type || "text"}
+                        type={field.type || 'text'}
                         name={field.name}
-                        value={formData[field.name] || ""}
+                        value={formData[field.name] || ''}
                         onChange={handleChange}
                         placeholder={field.placeholder}
                         required={field.required}
@@ -185,7 +194,7 @@ const GenericModal = <T extends Record<string, any>>({
               Hủy
             </Button>
             <Button type="submit" variant="secondary" disabled={isLoading}>
-              {isLoading ? "Đang lưu..." : "Lưu"}
+              {isLoading ? 'Đang lưu...' : 'Lưu'}
             </Button>
           </CardFooter>
         </form>
